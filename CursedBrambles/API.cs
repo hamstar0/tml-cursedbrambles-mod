@@ -1,13 +1,19 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Terraria;
-using CursedBrambles.Tiles;
 
 
 namespace CursedBrambles {
 	public static class CursedBramblesAPI {
-		public static bool SetPlayerToCreateBrambleWake( Vector2 position, int radius ) {
-			CursedBrambleTile.CreateBrambleNearby( position, radius );
+		public static bool SetPlayerToCreateBrambleWake( Player player, int radius, int tickRate ) {
+			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();
+			myplayer.ActivateBrambleWake( radius, tickRate );
+
+			return true;
+		}
+
+		public static bool UnsetPlayerToCreateBrambleWake( Player player ) {
+			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();
+			myplayer.DeactivateBrambleWake();
 
 			return true;
 		}

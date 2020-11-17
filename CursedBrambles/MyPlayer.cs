@@ -7,6 +7,15 @@ using Terraria.ModLoader;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
+		public bool IsBrambleWakeManuallyEnabled { get; private set; } = false;
+
+		public int BrambleWakeRadius { get; private set; } = 64;
+
+		public int BrambleWakeTickRate { get; private set; } = 15;
+
+
+		////////////////
+
 		private Vector2 OldPosition = default( Vector2 );
 
 
@@ -21,7 +30,7 @@ namespace CursedBrambles {
 
 		private void PreUpdateHost() {
 			var config = CursedBramblesConfig.Instance;
-			if( config.Get<bool>( nameof(config.PlayersCreateBrambleTrail) ) ) {
+			if( this.IsBrambleWakeManuallyEnabled || config.Get<bool>( nameof(config.PlayersCreateBrambleTrail) ) ) {
 				this.CreateCursedBrambleNearbyIf();
 			}
 		}
