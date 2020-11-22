@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using CursedBrambles.Buffs;
 
 
 namespace CursedBrambles {
@@ -12,6 +13,18 @@ namespace CursedBrambles {
 		public int BrambleWakeRadius { get; private set; } = 64;
 
 		public int BrambleWakeTickRate { get; private set; } = 15;
+
+		////
+
+		public bool IsPlayerProducingBrambleWake {
+			get {
+				var config = CursedBramblesConfig.Instance;
+				if( !this.IsBrambleWakeManuallyEnabled && !config.Get<bool>(nameof(config.PlayersCreateBrambleTrail)) ) {
+					return false;
+				}
+				return this.CanCreateCursedBramblesNearby(out bool _);
+			}
+		}
 
 
 		////////////////
@@ -29,9 +42,23 @@ namespace CursedBrambles {
 		}
 
 		private void PreUpdateHost() {
-			var config = CursedBramblesConfig.Instance;
-			if( this.IsBrambleWakeManuallyEnabled || config.Get<bool>( nameof(config.PlayersCreateBrambleTrail) ) ) {
+			if( this.IsPlayerProducingBrambleWake ) {
 				this.CreateCursedBrambleNearbyIf();
+			}
+		}
+
+
+		public override void PreUpdateBuffs() {
+			int theShadowDeBuffType = ModContent.BuffType<TheShadowDeBuff>();
+
+			if( !this.player.HasBuff(theShadowDeBuffType) ) {
+				if( this.IsPlayerProducingBrambleWake ) {
+					this.player.AddBuff( theShadowDeBuffType, 2 );
+				}
+			} else {
+				if( this.IsPlayerProducingBrambleWake ) {
+					this.player.ClearBuff( theShadowDeBuffType );
+				}
 			}
 		}
 	}

@@ -22,17 +22,29 @@ namespace CursedBrambles {
 
 		////////////////
 
-		private void CreateCursedBrambleNearbyIf() {
+		private bool CanCreateCursedBramblesNearby( out bool canCreateBramblesThisTick ) {
 			int tileY = (int)( this.player.position.Y / 16f );
 			if( tileY < WorldHelpers.DirtLayerTopTileY || tileY >= WorldHelpers.UnderworldLayerTopTileY ) {
-				return;
+				canCreateBramblesThisTick = false;
+				return false;
 			}
 
 			string timerName = "CursedBramblePlayerTrail_" + this.player.whoAmI;
 			if( Timers.GetTimerTickDuration( timerName ) > 0 ) {
+				canCreateBramblesThisTick = false;
+				return true;
+			}
+
+			canCreateBramblesThisTick = true;
+			return true;
+		}
+
+		private void CreateCursedBrambleNearbyIf() {
+			if( !this.CanCreateCursedBramblesNearby(out bool thisTick) || !thisTick ) {
 				return;
 			}
 
+			string timerName = "CursedBramblePlayerTrail_" + this.player.whoAmI;
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
 				if( this.OldPosition != default( Vector2 ) ) {
 					CursedBrambleTile.CreateBrambleNearby( this.OldPosition, this.BrambleWakeRadius );
