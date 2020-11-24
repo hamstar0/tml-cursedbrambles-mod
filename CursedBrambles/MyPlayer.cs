@@ -14,6 +14,8 @@ namespace CursedBrambles {
 
 		public int BrambleWakeTickRate { get; private set; } = 15;
 
+		public bool IsNearBrambles { get; private set; } = false;
+
 		////
 
 		public bool IsPlayerProducingBrambleWake {
@@ -31,6 +33,8 @@ namespace CursedBrambles {
 
 		private Vector2 OldPosition = default( Vector2 );
 
+		private int BrambleProximityTimer = 0;
+
 
 
 		////////////////
@@ -38,6 +42,14 @@ namespace CursedBrambles {
 		public override void PreUpdate() {
 			if( Main.netMode != NetmodeID.MultiplayerClient ) {
 				this.PreUpdateHost();
+			}
+
+			if( this.player.whoAmI == Main.myPlayer ) {
+				if( this.BrambleProximityTimer-- <= 0 ) {
+					this.BrambleProximityTimer = 30;
+
+					this.IsNearBrambles = this.DetectIfNearbyBrambles();
+				}
 			}
 		}
 

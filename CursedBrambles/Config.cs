@@ -33,5 +33,10 @@ namespace CursedBrambles {
 
 		[DefaultValue( true )]
 		public bool PlayersCreateBrambleTrail { get; set; } = true;
+
+
+		[Range( -1, 40000) ]
+		[DefaultValue( 24 )]
+		public int CursedBrambleWarpItemBlockingTileRange { get; set; } = 24;
 	}
 }
