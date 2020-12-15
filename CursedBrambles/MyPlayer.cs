@@ -21,8 +21,10 @@ namespace CursedBrambles {
 		public bool IsPlayerProducingBrambleWake {
 			get {
 				var config = CursedBramblesConfig.Instance;
-				if( !this.IsBrambleWakeManuallyEnabled && !config.Get<bool>(nameof(config.PlayersCreateBrambleTrail)) ) {
-					return false;
+				if( !this.IsBrambleWakeManuallyEnabled ) {
+					if( !config.Get<bool>( nameof(config.PlayersCreateBrambleTrail) ) ) {
+						return false;
+					}
 				}
 				return this.CanCreateCursedBramblesNearby(out bool _);
 			}
@@ -53,6 +55,8 @@ namespace CursedBrambles {
 			}
 		}
 
+		////
+
 		private void PreUpdateHost() {
 			if( this.IsPlayerProducingBrambleWake ) {
 				this.CreateCursedBrambleNearbyIf();
@@ -60,17 +64,31 @@ namespace CursedBrambles {
 		}
 
 
+		////
+		
+		public bool _FlickerFx = false;
+
 		public override void PreUpdateBuffs() {
 			int theShadowDeBuffType = ModContent.BuffType<TheShadowDeBuff>();
 
-			if( !this.player.HasBuff(theShadowDeBuffType) ) {
-				if( this.IsPlayerProducingBrambleWake ) {
-					this.player.AddBuff( theShadowDeBuffType, 2 );
+			if( this.IsPlayerProducingBrambleWake ) {
+				this._FlickerFx = !this._FlickerFx;
+				if( this._FlickerFx ) {
+					this.player.AddBuff( theShadowDeBuffType, 1 );
 				}
 			} else {
-				if( this.IsPlayerProducingBrambleWake ) {
+				if( this.player.HasBuff(theShadowDeBuffType) ) {
 					this.player.ClearBuff( theShadowDeBuffType );
 				}
+			}
+		}
+
+
+		////
+
+		public override void PreUpdateMovement() {
+			if( this.IsPlayerEmbrambled() ) {
+				this.ApplyBrambleEffects();
 			}
 		}
 	}

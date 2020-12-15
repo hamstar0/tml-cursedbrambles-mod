@@ -33,7 +33,7 @@ namespace CursedBrambles.Tiles {
 
 		/// @private
 		public override void RandomUpdate( int i, int j ) {
-			TileHelpers.KillTileSynced( i, j, false, false );
+			TileHelpers.KillTileSynced( i, j, false, false, true );
 		}
 	}
 }

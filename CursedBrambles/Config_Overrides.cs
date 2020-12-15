@@ -37,5 +37,12 @@ namespace CursedBrambles {
 			}
 			this.Overrides[propName] = value;
 		}
+
+		public bool UnsetOverride<T>( string propName ) {
+			if( !ReflectionHelpers.Get( this, propName, out T _ ) ) {
+				throw new ModHelpersException( "Invalid property " + propName + " of type " + typeof( T ).Name );
+			}
+			return this.Overrides.Remove( propName );
+		}
 	}
 }

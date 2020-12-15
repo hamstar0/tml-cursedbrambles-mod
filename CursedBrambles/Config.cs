@@ -38,5 +38,27 @@ namespace CursedBrambles {
 		[Range( -1, 40000) ]
 		[DefaultValue( 24 )]
 		public int CursedBrambleWarpItemBlockingTileRange { get; set; } = 24;
+
+
+		[Range( 1, 60 * 60 * 60 * 24 )]
+		[DefaultValue( 6 )]
+		public int BrambleTicksPerDamage { get; set; } = 6;
+
+		[Range( 1, 9999999 )]
+		[DefaultValue( 20 )]
+		public int BrambleDamage { get; set; } = 10;
+
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.2f )]
+		public float BrambleStickiness { get; set; } = 0.2f;
+
+		[Range( 1, 128 )]
+		[DefaultValue( 4 )]
+		public int BrambleThickness { get; set; } = 4;
+
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.15f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float BrambleDensity { get; set; } = 0.15f;
 	}
 }
