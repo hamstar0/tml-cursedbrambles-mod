@@ -15,8 +15,8 @@ namespace CursedBrambles {
 
 			int x = (int)(this.player.Center.X / 16f);
 			int y = (int)(this.player.Center.Y / 16f);
-			int minX = Math.Max( x - rad, 0 );
-			int minY = Math.Max( y - rad, 0 );
+			int minX = Math.Max( x - rad, 1 );
+			int minY = Math.Max( y - rad, 1 );
 			int maxX = Math.Min( x + rad, Main.maxTilesX - 1 );
 			int maxY = Math.Min( y + rad, Main.maxTilesY - 1 );
 

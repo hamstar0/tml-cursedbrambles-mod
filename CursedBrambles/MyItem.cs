@@ -15,6 +15,8 @@ namespace CursedBrambles {
 			case ItemID.RecallPotion:
 			case ItemID.CellPhone:
 				if( !this.CanUseWarpItem(player) ) {
+					player.AddBuff( BuffID.ChaosState, 2 );
+
 					if( player.whoAmI == Main.myPlayer ) {
 						Timers.SetTimer( "CursedBramblesWarpBlock", 2, false, () => {
 							Main.NewText( "Cannot use warp items near brambles.", Color.Yellow );
