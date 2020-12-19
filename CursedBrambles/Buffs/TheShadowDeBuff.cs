@@ -8,7 +8,7 @@ namespace CursedBrambles.Buffs {
 	partial class TheShadowDeBuff : ModBuff {
 		public override void SetDefaults() {
 			this.DisplayName.SetDefault( "The Shadow" );
-			this.Description.SetDefault( "A dark force stalks you in deep places" );
+			this.Description.SetDefault( "Evil growths appear around you" );
 
 			Main.debuff[this.Type] = true;
 			Main.buffNoTimeDisplay[this.Type] = true;
