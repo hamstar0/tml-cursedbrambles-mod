@@ -32,7 +32,7 @@ namespace CursedBrambles {
 		public bool BossesCreateBrambleTrail { get; set; } = true;
 
 		[DefaultValue( true )]
-		public bool PlayersCreateBrambleTrail { get; set; } = true;
+		public bool PlayersCreateDefaultBrambleTrail  { get; set; } = true;
 
 
 		[Range( -1, 40000) ]

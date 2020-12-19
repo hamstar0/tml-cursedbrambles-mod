@@ -8,7 +8,11 @@ using CursedBrambles.Buffs;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
-		public bool IsBrambleWakeManuallyEnabled { get; private set; } = false;
+		public bool IsDefaultBrambleTrailAPIEnabled { get; private set; } = false;
+		
+		public bool IsDefaultBrambleTrailElevationChecked { get; private set; } = false;
+
+		////
 
 		public int BrambleWakeRadius { get; private set; } = 64;
 
@@ -20,13 +24,21 @@ namespace CursedBrambles {
 
 		public bool IsPlayerProducingBrambleWake {
 			get {
-				var config = CursedBramblesConfig.Instance;
-				if( !this.IsBrambleWakeManuallyEnabled ) {
-					if( !config.Get<bool>( nameof(config.PlayersCreateBrambleTrail) ) ) {
-						return false;
-					}
+				if( this.IsDefaultBrambleTrailAPIEnabled ) {
+					return true;
 				}
-				return this.CanCreateCursedBramblesNearby(out bool _);
+				if( !this.IsDefaultBrambleTrailElevationChecked ) {
+					return true;
+				}
+
+				var config = CursedBramblesConfig.Instance;
+				bool plrCanBrambleSetting = config.Get<bool>( nameof(config.PlayersCreateDefaultBrambleTrail ) );
+
+				if( !plrCanBrambleSetting ) {
+					return false;
+				}
+
+				return this.CanPlayerDefaultCreateCursedBramblesNearby();
 			}
 		}
 
@@ -66,14 +78,14 @@ namespace CursedBrambles {
 
 		////
 		
-		public bool _FlickerFx = false;
+		public int _FlickerFxTimer = 0;
 
 		public override void PreUpdateBuffs() {
 			int theShadowDeBuffType = ModContent.BuffType<TheShadowDeBuff>();
 
 			if( this.IsPlayerProducingBrambleWake ) {
-				this._FlickerFx = !this._FlickerFx;
-				if( this._FlickerFx ) {
+				if( this._FlickerFxTimer-- <= 0 ) {
+					this._FlickerFxTimer = 2;
 					this.player.AddBuff( theShadowDeBuffType, 1 );
 				}
 			} else {

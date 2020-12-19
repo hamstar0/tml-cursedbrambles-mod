@@ -4,14 +4,14 @@ using Terraria;
 
 namespace CursedBrambles {
 	public static class CursedBramblesAPI {
-		public static bool SetPlayerToCreateBrambleWake( Player player, int radius, int tickRate ) {
+		public static bool SetPlayerToCreateBrambleWake( Player player, bool isElevationChecked, int radius, int tickRate ) {
 			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();
-			myplayer.ActivateBrambleWake( radius, tickRate );
+			myplayer.ActivateBrambleWake( isElevationChecked, radius, tickRate );
 
 			return true;
 		}
 
-		public static bool UnsetPlayerToCreateBrambleWake( Player player ) {
+		public static bool UnsetPlayerBrambleWakeCreating( Player player ) {
 			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();
 			myplayer.DeactivateBrambleWake();
 

@@ -9,42 +9,43 @@ using CursedBrambles.Tiles;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
-		internal void ActivateBrambleWake( int radius, int tickRate ) {
+		internal void ActivateBrambleWake( bool isElevationChecked, int radius, int tickRate ) {
+			this.IsDefaultBrambleTrailElevationChecked = isElevationChecked;
 			this.BrambleWakeRadius = radius;
 			this.BrambleWakeTickRate = tickRate;
-			this.IsBrambleWakeManuallyEnabled = true;
+			this.IsDefaultBrambleTrailAPIEnabled = true;
 		}
 
 		internal void DeactivateBrambleWake() {
-			this.IsBrambleWakeManuallyEnabled = false;
+			this.IsDefaultBrambleTrailAPIEnabled = false;
 		}
 
 
 		////////////////
 
-		private bool CanCreateCursedBramblesNearby( out bool canCreateBramblesThisTick ) {
+		 private const string TimerNameBase = "CursedBramblePlayerTrail";
+
+		private bool CanPlayerDefaultCreateCursedBramblesNearby() {
 			int tileY = (int)( this.player.position.Y / 16f );
-			if( tileY < WorldHelpers.DirtLayerTopTileY || tileY >= WorldHelpers.UnderworldLayerTopTileY ) {
-				canCreateBramblesThisTick = false;
-				return false;
-			}
 
-			string timerName = "CursedBramblePlayerTrail_" + this.player.whoAmI;
-			if( Timers.GetTimerTickDuration( timerName ) > 0 ) {
-				canCreateBramblesThisTick = false;
-				return true;
-			}
-
-			canCreateBramblesThisTick = true;
-			return true;
+			// Player out of range?
+			return tileY >= WorldHelpers.DirtLayerTopTileY && tileY < WorldHelpers.UnderworldLayerTopTileY;
+		}
+		
+		private bool CanCreateCursedBramblesThisTick() {
+			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
+			return Timers.GetTimerTickDuration(timerName) == 0;
 		}
 
 		private void CreateCursedBrambleNearbyIf() {
-			if( !this.CanCreateCursedBramblesNearby(out bool thisTick) || !thisTick ) {
+			if( !this.IsPlayerProducingBrambleWake ) {
+				return;
+			}
+			if( !this.CanCreateCursedBramblesThisTick() ) {
 				return;
 			}
 
-			string timerName = "CursedBramblePlayerTrail_" + this.player.whoAmI;
+			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
 				if( this.OldPosition != default( Vector2 ) ) {
 					CursedBrambleTile.CreateBrambleNearby( this.OldPosition, this.BrambleWakeRadius );
