@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.Tiles;
 
 
 namespace CursedBrambles.Tiles {
@@ -20,7 +19,7 @@ namespace CursedBrambles.Tiles {
 			//Main.tileBlockLight[this.Type] = true;
 			//Main.tileLighted[this.Type] = true;
 			Main.tileNoAttach[this.Type] = true;
-			Main.tileLavaDeath[this.Type] = false;
+			Main.tileLavaDeath[this.Type] = true;
 			this.dustType = DustID.Granite;
 			this.AddMapEntry( new Color( 128, 64, 128 ) );
 		}
@@ -31,9 +30,14 @@ namespace CursedBrambles.Tiles {
 		}
 
 
-		/// @private
+		/*/// @private
 		public override void RandomUpdate( int i, int j ) {
-			TileHelpers.KillTileSynced( i, j, false, false, true );
-		}
+			var config = CursedBramblesConfig.Instance;
+			int attempts = config.Get<int>( nameof(config.BrambleErodeRandomAttemptsPerTickPerSmallWorldArea) );
+
+			if( attempts >= 1 ) {
+				TileHelpers.KillTileSynced( i, j, false, false, true );
+			}
+		}*/
 	}
 }

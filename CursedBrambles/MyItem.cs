@@ -14,12 +14,10 @@ namespace CursedBrambles {
 			case ItemID.IceMirror:
 			case ItemID.RecallPotion:
 			case ItemID.CellPhone:
-				if( !this.CanUseWarpItem(player) ) {
-					player.AddBuff( BuffID.ChaosState, 2 );
-
+				if( player.GetModPlayer<CursedBramblesPlayer>().IsNearBrambles ) {
 					if( player.whoAmI == Main.myPlayer ) {
 						Timers.SetTimer( "CursedBramblesWarpBlock", 2, false, () => {
-							Main.NewText( "Cannot use warp items near brambles.", Color.Yellow );
+							Main.NewText( "Too many cursed brambles close by to warp.", Color.Yellow );
 							return false;
 						} );
 					}
@@ -29,12 +27,6 @@ namespace CursedBrambles {
 			}
 
 			return base.CanUseItem( item, player );
-		}
-
-		////
-
-		private bool CanUseWarpItem( Player player ) {
-			return !player.GetModPlayer<CursedBramblesPlayer>().IsNearBrambles;
 		}
 	}
 }

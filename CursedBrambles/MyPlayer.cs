@@ -56,6 +56,8 @@ namespace CursedBrambles {
 		public override void PreUpdate() {
 			if( Main.netMode != NetmodeID.MultiplayerClient ) {
 				this.PreUpdateHost();
+			} else {
+				this.PreUpdateLocal();
 			}
 
 			if( this.player.whoAmI == Main.myPlayer ) {
@@ -68,6 +70,12 @@ namespace CursedBrambles {
 		}
 
 		////
+
+		private void PreUpdateLocal() {
+			/*if( this.IsNearBrambles ) {
+				this.player.AddBuff( BuffID.ChaosState, 2 );
+			}*/
+		}
 
 		private void PreUpdateHost() {
 			if( this.IsPlayerProducingBrambleWake ) {

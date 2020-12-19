@@ -124,7 +124,7 @@ namespace CursedBrambles.Tiles {
 			}
 
 			Tile tile = Framing.GetTileSafely( tileX, tileY );
-			if( tile.active() ) {
+			if( tile.active() || (tile.liquid != 0 && (tile.honey() || tile.lava())) ) {
 				return null;
 			}
 
