@@ -13,7 +13,7 @@ namespace CursedBrambles.Tiles {
 	/// </summary>
 	public partial class CursedBrambleTile : ModTile {
 		/// <summary>
-		/// Attempts to remove a random bramble within a given radius of a given tile.
+		/// Attempts to remove a random bramble within a given (tile) radius of a given tile.
 		/// </summary>
 		/// <param name="tileX"></param>
 		/// <param name="tileY"></param>
@@ -24,6 +24,26 @@ namespace CursedBrambles.Tiles {
 			int randY = TmlHelpers.SafelyGetRand().Next( radius * 2 );
 			int randTileX = tileX + ( randX - radius );
 			int randTileY = tileY + ( randY - radius );
+
+			Tile tile = Framing.GetTileSafely( randTileX, randTileY );
+			if( !tile.active() || tile.type != ModContent.TileType<CursedBrambleTile>() ) {
+				return false;
+			}
+
+			TileHelpers.KillTileSynced( tileX, tileY, false, false, true );
+			return true;
+		}
+
+		/// <summary>
+		/// Attempts to remove a random bramble within a given (tile) area.
+		/// </summary>
+		/// <param name="tileX"></param>
+		/// <param name="tileY"></param>
+		/// <param name="radius"></param>
+		/// <returns>`true` if a bramble was found and removed.</returns>
+		public static bool ErodeRandomBrambleWithinArea( int tileX, int tileY, int width, int height ) {
+			int randTileX = tileX + TmlHelpers.SafelyGetRand().Next( width );
+			int randTileY = tileY + TmlHelpers.SafelyGetRand().Next( height );
 
 			Tile tile = Framing.GetTileSafely( randTileX, randTileY );
 			if( !tile.active() || tile.type != ModContent.TileType<CursedBrambleTile>() ) {
