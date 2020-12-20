@@ -64,7 +64,6 @@ namespace CursedBrambles {
 
 		[Range( 0, 10000 )]
 		[DefaultValue( 1 )]
-		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
-		public float BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 1;
+		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 1;
 	}
 }
