@@ -10,14 +10,14 @@ using CursedBrambles.Tiles;
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
 		internal void ActivateBrambleWake( bool isElevationChecked, int radius, int tickRate ) {
-			this.IsDefaultBrambleTrailElevationChecked = isElevationChecked;
+			this.IsPlayerDefaultBrambleTrailElevationChecked = isElevationChecked;
 			this.BrambleWakeRadius = radius;
 			this.BrambleWakeTickRate = tickRate;
-			this.IsDefaultBrambleTrailAPIEnabled = true;
+			this.IsPlayerBrambleTrailAPIEnabled = true;
 		}
 
 		internal void DeactivateBrambleWake() {
-			this.IsDefaultBrambleTrailAPIEnabled = false;
+			this.IsPlayerBrambleTrailAPIEnabled = false;
 		}
 
 
@@ -28,7 +28,7 @@ namespace CursedBrambles {
 		private bool CanPlayerDefaultCreateCursedBramblesNearby() {
 			int tileY = (int)( this.player.position.Y / 16f );
 
-			// Player out of range?
+			// Player in range?
 			return tileY >= WorldHelpers.DirtLayerTopTileY && tileY < WorldHelpers.UnderworldLayerTopTileY;
 		}
 		
@@ -36,6 +36,9 @@ namespace CursedBrambles {
 			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
 			return Timers.GetTimerTickDuration(timerName) == 0;
 		}
+
+
+		////////////////
 
 		private void CreateCursedBrambleNearbyIf() {
 			if( !this.IsPlayerProducingBrambleWake ) {

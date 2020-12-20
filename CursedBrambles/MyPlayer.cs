@@ -8,9 +8,9 @@ using CursedBrambles.Buffs;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
-		public bool IsDefaultBrambleTrailAPIEnabled { get; private set; } = false;
+		public bool IsPlayerBrambleTrailAPIEnabled { get; private set; } = false;
 		
-		public bool IsDefaultBrambleTrailElevationChecked { get; private set; } = false;
+		public bool IsPlayerDefaultBrambleTrailElevationChecked { get; private set; } = false;
 
 		////
 
@@ -24,21 +24,16 @@ namespace CursedBrambles {
 
 		public bool IsPlayerProducingBrambleWake {
 			get {
-				if( this.IsDefaultBrambleTrailAPIEnabled ) {
-					return true;
-				}
-				if( !this.IsDefaultBrambleTrailElevationChecked ) {
-					return true;
+				if( this.IsPlayerBrambleTrailAPIEnabled ) {
+					return !this.IsPlayerDefaultBrambleTrailElevationChecked
+						|| this.CanPlayerDefaultCreateCursedBramblesNearby();
 				}
 
 				var config = CursedBramblesConfig.Instance;
-				bool plrCanBrambleSetting = config.Get<bool>( nameof(config.PlayersCreateDefaultBrambleTrail ) );
+				bool plrCanBrambleSetting = config.Get<bool>( nameof(config.PlayersCreateDefaultBrambleTrail) );
 
-				if( !plrCanBrambleSetting ) {
-					return false;
-				}
-
-				return this.CanPlayerDefaultCreateCursedBramblesNearby();
+				return plrCanBrambleSetting
+					&& this.CanPlayerDefaultCreateCursedBramblesNearby();
 			}
 		}
 
@@ -78,9 +73,7 @@ namespace CursedBrambles {
 		}
 
 		private void PreUpdateHost() {
-			if( this.IsPlayerProducingBrambleWake ) {
-				this.CreateCursedBrambleNearbyIf();
-			}
+			this.CreateCursedBrambleNearbyIf();
 		}
 
 
