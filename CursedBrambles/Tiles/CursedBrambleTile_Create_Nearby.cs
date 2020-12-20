@@ -10,11 +10,15 @@ namespace CursedBrambles.Tiles {
 	/// weapons (except via. manual pickaxing), and entangles and poisons players. May support additional custom behavior.
 	/// </summary>
 	public partial class CursedBrambleTile : ModTile {
-		public static void CreateBrambleNearby( Vector2 pos, int radius ) {
+		/// <summary></summary>
+		/// <param name="worldPos"></param>
+		/// <param name="radius"></param>
+		/// <param name="sync"></param>
+		public static void CreateBrambleNearby( Vector2 worldPos, int radius, bool sync ) {
 			int numChecks = radius / 4;
 
-			int tileX = (int)pos.X / 16;
-			int tileY = (int)pos.Y / 16;
+			int tileX = (int)worldPos.X / 16;
+			int tileY = (int)worldPos.Y / 16;
 
 			int minX = Math.Max( tileX - radius, 0 );
 			int maxX = Math.Min( tileX + radius, Main.maxTilesX - 1 );
@@ -44,7 +48,7 @@ namespace CursedBrambles.Tiles {
 				}
 			}
 
-			CursedBrambleTile.CreateBrambleAt( point.x, point.y );
+			CursedBrambleTile.CreateBrambleAt( point.x, point.y, sync );
 		}
 
 

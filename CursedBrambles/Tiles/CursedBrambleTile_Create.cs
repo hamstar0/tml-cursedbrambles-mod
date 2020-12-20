@@ -20,10 +20,12 @@ namespace CursedBrambles.Tiles {
 		/// <param name="tilePositions">Center positions of bramble patches. Array will be shuffled.</param>
 		/// <param name="radius"></param>
 		/// <param name="densityPercent"></param>
+		/// <param name="sync"></param>
 		public static void CreateShuffledBramblePatchesSuccessively(
 					ref (int TileX, int TileY)[] tilePositions,
 					int radius,
-					float densityPercent ) {
+					float densityPercent,
+					bool sync ) {
 			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
 
 			// Shuffle positions
@@ -35,7 +37,7 @@ namespace CursedBrambles.Tiles {
 				tilePositions[randPos] = tmp;
 			}
 
-			CursedBrambleTile.CreateBramblePatchesSuccessively( tilePositions, tilePositions.Length - 1, radius, densityPercent );
+			CursedBrambleTile.CreateBramblePatchesSuccessively( tilePositions, tilePositions.Length - 1, radius, densityPercent, sync );
 		}
 
 		////
@@ -44,10 +46,11 @@ namespace CursedBrambles.Tiles {
 					(int TileX, int TileY)[] randTilePositions,
 					int lastIdx,
 					int radius,
-					float densityPercent ) {
+					float densityPercent,
+					bool sync ) {
 			(int tileX, int tileY) tilePos = randTilePositions[lastIdx];
 
-			int bramblesPlaced = CursedBrambleTile.CreateBramblePatchAt( tilePos.tileX, tilePos.tileY, radius, densityPercent );
+			int bramblesPlaced = CursedBrambleTile.CreateBramblePatchAt( tilePos.tileX, tilePos.tileY, radius, densityPercent, sync );
 
 			/*if( ModHelpersConfig.Instance.DebugModeMiscInfo ) {
 				LogHelpers.Log(
@@ -62,7 +65,7 @@ namespace CursedBrambles.Tiles {
 
 				string timerName = "CursedBramblesPathAsync_" + tilePos.tileX + "_" + tilePos.tileY;
 				Timers.SetTimer( timerName, 2, false, () => {
-					CursedBrambleTile.CreateBramblePatchesSuccessively( randTilePositions, lastIdx, radius, densityPercent );
+					CursedBrambleTile.CreateBramblePatchesSuccessively( randTilePositions, lastIdx, radius, densityPercent, sync );
 					return false;
 				} );
 			}
@@ -78,8 +81,9 @@ namespace CursedBrambles.Tiles {
 		/// <param name="tileY"></param>
 		/// <param name="radius"></param>
 		/// <param name="densityPercent"></param>
+		/// <param name="sync"></param>
 		/// <returns></returns>
-		public static int CreateBramblePatchAt( int tileX, int tileY, int radius, float densityPercent ) {
+		public static int CreateBramblePatchAt( int tileX, int tileY, int radius, float densityPercent, bool sync ) {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
 			var rand = TmlHelpers.SafelyGetRand();
 
@@ -98,7 +102,7 @@ namespace CursedBrambles.Tiles {
 						continue;
 					}
 
-					Tile tile = CursedBrambleTile.CreateBrambleAt( tileX + i, tileY + j );
+					Tile tile = CursedBrambleTile.CreateBrambleAt( tileX + i, tileY + j, sync );
 					if( tile != null ) {
 						bramblesPlaced++;
 					}
@@ -115,7 +119,7 @@ namespace CursedBrambles.Tiles {
 		/// <param name="tileX"></param>
 		/// <param name="tileY"></param>
 		/// <returns>`null` if bramble is blocked.</returns>
-		public static Tile CreateBrambleAt( int tileX, int tileY ) {
+		public static Tile CreateBrambleAt( int tileX, int tileY, bool sync ) {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
 
 			Tile tileAt = Main.tile[tileX, tileY];
@@ -145,7 +149,7 @@ namespace CursedBrambles.Tiles {
 			newTile.liquid = tile.liquid;
 			newTile.liquidType( tile.liquidType() );
 
-			if( Main.netMode != NetmodeID.SinglePlayer ) {
+			if( sync && Main.netMode != NetmodeID.SinglePlayer ) {
 				NetMessage.SendData( MessageID.TileChange, -1, -1, null, 1, (float)tileX, (float)tileY, (float)brambleTileType, 0, 0, 0 );
 			}
 

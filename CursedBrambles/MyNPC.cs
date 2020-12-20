@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using CursedBrambles.Tiles;
 
@@ -8,10 +9,12 @@ namespace CursedBrambles {
 	class CursedBramblesNPC : GlobalNPC {
 		public override void AI( NPC npc ) {
 			if( npc.boss ) {
-				var config = CursedBramblesConfig.Instance;
+				if( Main.netMode != NetmodeID.MultiplayerClient ) {
+					var config = CursedBramblesConfig.Instance;
 
-				if( config.Get<bool>( nameof( config.BossesCreateBrambleTrail ) ) ) {
-					this.CreateCursedBrambleTrail( npc );
+					if( config.Get<bool>( nameof(config.BossesCreateBrambleTrail) ) ) {
+						this.CreateCursedBrambleTrail( npc );
+					}
 				}
 			}
 		}
@@ -25,7 +28,7 @@ namespace CursedBrambles {
 			int thickness = npc.width > npc.height ? npc.width : npc.height;
 			thickness = (int)Math.Ceiling( (double)thickness / 16d );
 
-			CursedBrambleTile.CreateBramblePatchAt( tileX, tileY, thickness, 0.05f );
+			CursedBrambleTile.CreateBramblePatchAt( tileX, tileY, thickness, 0.05f, Main.netMode == NetmodeID.Server );
 		}
 	}
 }

@@ -52,7 +52,7 @@ namespace CursedBrambles {
 			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
 				if( this.OldPosition != default( Vector2 ) ) {
-					CursedBrambleTile.CreateBrambleNearby( this.OldPosition, this.BrambleWakeRadius );
+					CursedBrambleTile.CreateBrambleNearby( this.OldPosition, this.BrambleWakeRadius, true );
 				}
 
 				this.OldPosition = this.player.Center;
