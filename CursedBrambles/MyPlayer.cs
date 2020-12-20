@@ -86,8 +86,8 @@ namespace CursedBrambles {
 
 			if( this.IsPlayerProducingBrambleWake ) {
 				if( this._FlickerFxTimer-- <= 0 ) {
-					this._FlickerFxTimer = 2;
-					this.player.AddBuff( theShadowDeBuffType, 1 );
+					this._FlickerFxTimer = 3;
+					this.player.AddBuff( theShadowDeBuffType, 2 );
 				}
 			} else {
 				if( this.player.HasBuff(theShadowDeBuffType) ) {
