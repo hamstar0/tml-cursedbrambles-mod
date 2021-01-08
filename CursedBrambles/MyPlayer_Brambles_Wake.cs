@@ -41,7 +41,7 @@ namespace CursedBrambles {
 
 		////////////////
 
-		private void CreateCursedBrambleNearbyIf() {
+		private void AttemptCreateCursedBrambleNearbyIf() {
 			if( !this.IsPlayerProducingBrambleWake ) {
 				return;
 			}
@@ -52,7 +52,7 @@ namespace CursedBrambles {
 			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
 				if( this.OldPosition != default( Vector2 ) ) {
-					CursedBrambleTile.CreateBrambleNearby( this.OldPosition, this.BrambleWakeRadius, true );
+					CursedBrambleTile.AttemptCreateNearby( this.OldPosition, this.BrambleWakeRadius, true );
 				}
 
 				this.OldPosition = this.player.Center;

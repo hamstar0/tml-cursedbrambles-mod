@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -27,6 +28,28 @@ namespace CursedBrambles.Tiles {
 		/// @private
 		public override void NumDust( int i, int j, bool fail, ref int num ) {
 			num = fail ? 1 : 3;
+		}
+
+
+		public override void DrawEffects( int i, int j, SpriteBatch sb, ref Color drawColor, ref int nextSpecialDrawIndex ) {
+			if( Main.rand.NextFloat() > 0.05f ) {
+				return;
+			}
+
+			int wldX = (i * 16) + Main.rand.Next( 0, 16 );
+			int wldY = (j * 16) + Main.rand.Next( 0, 16 );
+
+			Dust.NewDust(
+				Position: new Vector2(wldX, wldY),
+				Width: 2,
+				Height: 2,
+				Type: 7,
+				SpeedX: 0f,
+				SpeedY: 0f,
+				Alpha: 0,
+				newColor: Color.Purple,
+				Scale: 1f
+			);
 		}
 
 

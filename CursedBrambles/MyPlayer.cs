@@ -73,7 +73,7 @@ namespace CursedBrambles {
 		}
 
 		private void PreUpdateHost() {
-			this.CreateCursedBrambleNearbyIf();
+			this.AttemptCreateCursedBrambleNearbyIf();
 		}
 
 
