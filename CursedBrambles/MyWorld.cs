@@ -13,13 +13,13 @@ namespace CursedBrambles {
 			int attempts = config.Get<int>( nameof(config.BrambleErodeRandomAttemptsPerTickPerSmallWorldArea) );
 			switch( WorldHelpers.GetSize() ) {
 			case WorldSize.Medium:
-				attempts *= 2;
+				attempts *= 3;
 				break;
 			case WorldSize.Large:
-				attempts *= 4;
+				attempts *= 6;
 				break;
 			case WorldSize.SuperLarge:
-				attempts *= 5;
+				attempts *= 8;
 				break;
 			}
 

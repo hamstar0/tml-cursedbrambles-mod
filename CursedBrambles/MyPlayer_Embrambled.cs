@@ -44,7 +44,7 @@ namespace CursedBrambles {
 				Timers.SetTimer( timerName, config.Get<int>( nameof(config.BrambleTicksPerDamage) ), false, () => {
 					PlayerHelpers.RawHurt(
 						player: this.player,
-						deathReason: PlayerDeathReason.ByCustomReason( " was devoured by cursed brambles" ),
+						deathReason: PlayerDeathReason.ByCustomReason( this.player.name+" was devoured by cursed brambles" ),
 						damage: config.Get<int>( nameof(config.BrambleDamage) ),
 						direction: 0,
 						pvp: false,

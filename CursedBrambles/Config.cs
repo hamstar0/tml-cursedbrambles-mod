@@ -41,8 +41,8 @@ namespace CursedBrambles {
 
 
 		[Range( 1, 60 * 60 * 60 * 24 )]
-		[DefaultValue( 6 )]
-		public int BrambleTicksPerDamage { get; set; } = 6;
+		[DefaultValue( 30 )]
+		public int BrambleTicksPerDamage { get; set; } = 30;	//6
 
 		[Range( 1, 9999999 )]
 		[DefaultValue( 15 )]
@@ -62,8 +62,8 @@ namespace CursedBrambles {
 		public float BrambleDensity { get; set; } = 0.15f;
 
 
-		[Range( 0, 10000 )]
-		[DefaultValue( 1 )]
-		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 1;
+		[Range( 0, 1000 )]
+		[DefaultValue( 8 )]
+		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 8;
 	}
 }

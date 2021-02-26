@@ -18,11 +18,11 @@ namespace CursedBrambles.Tiles {
 			//Main.tileSolid[this.Type] = true;
 			//Main.tileMergeDirt[this.Type] = true;
 			//Main.tileBlockLight[this.Type] = true;
-			//Main.tileLighted[this.Type] = true;
+			Main.tileLighted[this.Type] = true;
 			Main.tileNoAttach[this.Type] = true;
 			Main.tileLavaDeath[this.Type] = true;
 			this.dustType = DustID.Granite;
-			this.AddMapEntry( new Color( 128, 64, 128 ) );
+			this.AddMapEntry( new Color(128, 64, 128) );
 		}
 
 		/// @private
