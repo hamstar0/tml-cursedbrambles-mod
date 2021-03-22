@@ -62,8 +62,8 @@ namespace CursedBrambles {
 		public float BrambleDensity { get; set; } = 0.15f;
 
 
-		[Range( 0, 1000 )]
-		[DefaultValue( 8 )]
-		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 8;
+		[Range( 0, 10000 )]
+		[DefaultValue( 64 )]
+		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 64;
 	}
 }
