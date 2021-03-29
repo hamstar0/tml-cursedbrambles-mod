@@ -30,7 +30,7 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			TileHelpers.KillTileSynced( tileX, tileY, false, false, true );
+			TileHelpers.KillTileSynced( randTileX, randTileY, false, false, true );
 			return true;
 		}
 
@@ -50,7 +50,7 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			TileHelpers.KillTileSynced( tileX, tileY, false, false, true );
+			TileHelpers.KillTileSynced( randTileX, randTileY, false, false, true );
 			return true;
 		}
 	}
