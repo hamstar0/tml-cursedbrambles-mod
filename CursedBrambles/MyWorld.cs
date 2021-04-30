@@ -24,7 +24,13 @@ namespace CursedBrambles {
 			}
 
 			for( int i=0; i<attempts; i++ ) {
-				CursedBrambleTile.ErodeRandomBrambleWithinArea( 1, 1, Main.maxTilesX-2, Main.maxTilesY-2 );
+				CursedBrambleTile.ErodeRandomBrambleWithinArea(
+					minTileX: 1,
+					minTileY: 1,
+					width: Main.maxTilesX-2,
+					height: Main.maxTilesY-2,
+					adjacentRadius: 8
+				);
 			}
 		}
 	}
