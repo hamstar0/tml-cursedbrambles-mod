@@ -3,8 +3,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Players;
-using HamstarHelpers.Services.Timers;
+using ModLibsCore.Services.Timers;
+using ModLibsGeneral.Libraries.Players;
 using CursedBrambles.Tiles;
 
 
@@ -42,7 +42,7 @@ namespace CursedBrambles {
 			
 			if( Timers.GetTimerTickDuration( timerName ) <= 0 ) {
 				Timers.SetTimer( timerName, config.Get<int>( nameof(config.BrambleTicksPerDamage) ), false, () => {
-					PlayerHelpers.RawHurt(
+					PlayerLibraries.RawHurt(
 						player: this.player,
 						deathReason: PlayerDeathReason.ByCustomReason( this.player.name+" was devoured by cursed brambles" ),
 						damage: config.Get<int>( nameof(config.BrambleDamage) ),

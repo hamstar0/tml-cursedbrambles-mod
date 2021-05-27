@@ -3,9 +3,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.Utilities;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.TModLoader;
-using HamstarHelpers.Services.Timers;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.TModLoader;
+using ModLibsCore.Services.Timers;
 
 
 namespace CursedBrambles.Tiles {
@@ -26,7 +26,7 @@ namespace CursedBrambles.Tiles {
 					int radius,
 					float densityPercent,
 					bool sync ) {
-			UnifiedRandom rand = TmlHelpers.SafelyGetRand();
+			UnifiedRandom rand = TmlLibraries.SafelyGetRand();
 
 			// Shuffle positions
 			for( int i = tilePositions.Length - 1; i > 0; i-- ) {
@@ -53,7 +53,7 @@ namespace CursedBrambles.Tiles {
 			int bramblesPlaced = CursedBrambleTile.CreateBramblePatchAt( tilePos.tileX, tilePos.tileY, radius, densityPercent, sync );
 
 			/*if( ModHelpersConfig.Instance.DebugModeMiscInfo ) {
-				LogHelpers.Log(
+				LogLibraries.Log(
 					"Created " + bramblesPlaced
 					+ " brambles in patch " + lastIdx
 					+ " of " + randTilePositions.Length
@@ -85,7 +85,7 @@ namespace CursedBrambles.Tiles {
 		/// <returns></returns>
 		public static int CreateBramblePatchAt( int tileX, int tileY, int radius, float densityPercent, bool sync ) {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
-			var rand = TmlHelpers.SafelyGetRand();
+			var rand = TmlLibraries.SafelyGetRand();
 
 			Tile tileAt = Main.tile[tileX, tileY];
 			if( tileAt != null && tileAt.active() && tileAt.type == brambleTileType ) {

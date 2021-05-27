@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Terraria;
-using HamstarHelpers.Classes.Errors;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Classes.Errors;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace CursedBrambles {
@@ -27,8 +27,8 @@ namespace CursedBrambles {
 
 		public static bool SetPlayerToCreateBrambleWake( Player player, bool isElevationChecked, int radius, int tickRate ) {
 			if( CursedBramblesConfig.Instance.DebugModeInfo ) {
-				IList<string> ctx = DebugHelpers.GetContextSlice();
-				LogHelpers.Log( "SetPlayerToCreateBrambleWake called from: "+string.Join("\n  ", ctx) );
+				IList<string> ctx = DebugLibraries.GetContextSlice();
+				LogLibraries.Log( "SetPlayerToCreateBrambleWake called from: "+string.Join("\n  ", ctx) );
 			}
 
 			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();

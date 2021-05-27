@@ -1,10 +1,10 @@
 ﻿using System;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.TModLoader;
-using HamstarHelpers.Helpers.Tiles;
-using HamstarHelpers.Services.Timers;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Services.Timers;
+using ModLibsCore.Libraries.TModLoader;
+using ModLibsGeneral.Libraries.Tiles;
 
 
 namespace CursedBrambles.Tiles {
@@ -22,8 +22,8 @@ namespace CursedBrambles.Tiles {
 		/// <param name="adjacentRadius"></param>
 		/// <returns>`true` if a bramble was found and removed.</returns>
 		public static bool ErodeRandomBrambleWithinRadius( int tileX, int tileY, int radius, int adjacentRadius ) {
-			int randX = TmlHelpers.SafelyGetRand().Next( radius * 2 );
-			int randY = TmlHelpers.SafelyGetRand().Next( radius * 2 );
+			int randX = TmlLibraries.SafelyGetRand().Next( radius * 2 );
+			int randY = TmlLibraries.SafelyGetRand().Next( radius * 2 );
 			int randTileX = tileX + ( randX - radius );
 			int randTileY = tileY + ( randY - radius );
 
@@ -32,7 +32,7 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			TileHelpers.KillTileSynced( randTileX, randTileY, false, false, true );
+			TileLibraries.KillTileSynced( randTileX, randTileY, false, false, true );
 
 			CursedBrambleTile.ErodeBramblesWithinAreaRadiusRandomly( tileX, tileY, adjacentRadius );
 
@@ -48,15 +48,15 @@ namespace CursedBrambles.Tiles {
 		/// <param name="adjacentRadius"></param>
 		/// <returns>`true` if a bramble was found and removed.</returns>
 		public static bool ErodeRandomBrambleWithinArea( int minTileX, int minTileY, int width, int height, int adjacentRadius ) {
-			int randTileX = minTileX + TmlHelpers.SafelyGetRand().Next( width );
-			int randTileY = minTileY + TmlHelpers.SafelyGetRand().Next( height );
+			int randTileX = minTileX + TmlLibraries.SafelyGetRand().Next( width );
+			int randTileY = minTileY + TmlLibraries.SafelyGetRand().Next( height );
 
 			Tile tile = Framing.GetTileSafely( randTileX, randTileY );
 			if( !tile.active() || tile.type != ModContent.TileType<CursedBrambleTile>() ) {
 				return false;
 			}
 
-			TileHelpers.KillTileSynced( randTileX, randTileY, false, false, true );
+			TileLibraries.KillTileSynced( randTileX, randTileY, false, false, true );
 
 			CursedBrambleTile.ErodeBramblesWithinAreaRadiusRandomly( minTileX, minTileY, adjacentRadius );
 
@@ -94,11 +94,11 @@ namespace CursedBrambles.Tiles {
 			int maxTicks = 60 * 60;
 			int brambleType = ModContent.TileType<CursedBrambleTile>();
 
-			Timers.SetTimer( TmlHelpers.SafelyGetRand().Next(minTicks, maxTicks), false, () => {
+			Timers.SetTimer( TmlLibraries.SafelyGetRand().Next(minTicks, maxTicks), false, () => {
 				Tile tile = Framing.GetTileSafely( tileX, tileY );
 
 				if( tile.active() && tile.type == brambleType ) {
-					TileHelpers.KillTileSynced( tileX, tileY, false, false, true );
+					TileLibraries.KillTileSynced( tileX, tileY, false, false, true );
 				}
 				return false;
 			} );

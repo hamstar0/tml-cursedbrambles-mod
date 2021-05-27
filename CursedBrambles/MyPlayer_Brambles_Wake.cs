@@ -2,9 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.World;
-using HamstarHelpers.Services.Timers;
+using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Services.Timers;
+using ModLibsGeneral.Libraries.World;
 using CursedBrambles.Tiles;
 
 
@@ -30,7 +30,7 @@ namespace CursedBrambles {
 			int tileY = (int)( this.player.position.Y / 16f );
 
 			// Player in range?
-			return tileY >= WorldHelpers.DirtLayerTopTileY && tileY < WorldHelpers.UnderworldLayerTopTileY;
+			return tileY >= WorldLibraries.DirtLayerTopTileY && tileY < WorldLibraries.UnderworldLayerTopTileY;
 		}
 		
 		private bool CanCreateCursedBramblesThisTick() {

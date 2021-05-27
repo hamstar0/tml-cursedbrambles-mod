@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace CursedBrambles.Tiles {
@@ -59,7 +59,7 @@ namespace CursedBrambles.Tiles {
 			int attempts = config.Get<int>( nameof(config.BrambleErodeRandomAttemptsPerTickPerSmallWorldArea) );
 
 			if( attempts >= 1 ) {
-				TileHelpers.KillTileSynced( i, j, false, false, true );
+				TileLibraries.KillTileSynced( i, j, false, false, true );
 			}
 		}*/
 	}

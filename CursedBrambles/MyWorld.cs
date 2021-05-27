@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using CursedBrambles.Tiles;
-using HamstarHelpers.Helpers.World;
+using ModLibsGeneral.Libraries.World;
 
 
 namespace CursedBrambles {
@@ -11,7 +11,7 @@ namespace CursedBrambles {
 			var config = CursedBramblesConfig.Instance;
 
 			int attempts = config.Get<int>( nameof(config.BrambleErodeRandomAttemptsPerTickPerSmallWorldArea) );
-			switch( WorldHelpers.GetSize() ) {
+			switch( WorldLibraries.GetSize() ) {
 			case WorldSize.Medium:
 				attempts *= 3;
 				break;
