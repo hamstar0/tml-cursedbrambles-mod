@@ -30,7 +30,7 @@ namespace CursedBrambles {
 			int tileY = (int)( this.player.position.Y / 16f );
 
 			// Player in range?
-			return tileY >= WorldLibraries.DirtLayerTopTileY && tileY < WorldLibraries.UnderworldLayerTopTileY;
+			return tileY >= WorldLocationLibraries.DirtLayerTopTileY && tileY < WorldLocationLibraries.UnderworldLayerTopTileY;
 		}
 		
 		private bool CanCreateCursedBramblesThisTick() {
