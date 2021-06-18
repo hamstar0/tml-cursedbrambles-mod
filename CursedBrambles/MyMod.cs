@@ -22,11 +22,9 @@ namespace CursedBrambles {
 		////////////////
 
 		public override void Load() {
-			CursedBramblesConfig.Instance = ModContent.GetInstance<CursedBramblesConfig>();
 		}
 
 		public override void Unload() {
-			CursedBramblesConfig.Instance = null;
 			CursedBramblesMod.Instance = null;
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using ModLibsCore.Classes.UI.ModConfig;
 using ModLibsCore.Libraries.Debug;
@@ -12,7 +13,7 @@ namespace CursedBrambles {
 
 
 	public partial class CursedBramblesConfig : ModConfig {
-		public static CursedBramblesConfig Instance { get; internal set; }
+		public static CursedBramblesConfig Instance => ModContent.GetInstance<CursedBramblesConfig>();
 
 
 
