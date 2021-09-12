@@ -6,7 +6,7 @@ using CursedBrambles.Tiles;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
-		private bool DetectIfNearbyBrambles() {
+		private bool DetectIfNearbyWarpBlockingBrambles() {
 			var config = CursedBramblesConfig.Instance;
 			int rad = config.Get<int>( nameof(config.CursedBrambleWarpItemBlockingTileRange) );
 			if( rad < 0 ) {

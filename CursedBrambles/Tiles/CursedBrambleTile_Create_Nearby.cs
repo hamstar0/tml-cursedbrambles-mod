@@ -6,15 +6,20 @@ using Terraria.ModLoader;
 
 namespace CursedBrambles.Tiles {
 	/// <summary>
-	/// Represents a tile that works similar to a standard corruption/crimson/jungle bramble, but cannot be removed by melee
-	/// weapons (except via. manual pickaxing), and entangles and poisons players. May support additional custom behavior.
+	/// Represents a tile that works similar to a standard corruption/crimson/jungle bramble, but cannot be removed
+	/// by melee weapons (except via. manual pickaxing), and entangles and poisons players. May support additional
+	/// custom behavior.
 	/// </summary>
 	public partial class CursedBrambleTile : ModTile {
 		/// <summary></summary>
 		/// <param name="worldPos"></param>
 		/// <param name="radius"></param>
 		/// <param name="sync"></param>
-		public static void AttemptCreateNearby( Vector2 worldPos, int radius, bool sync ) {
+		public static void CreateNearbyIf(
+					Vector2 worldPos,
+					int radius,
+					Func<int, int, bool> validateAt,
+					bool sync ) {
 			int numChecks = radius / 4;
 
 			int tileX = (int)worldPos.X / 16;
@@ -25,30 +30,33 @@ namespace CursedBrambles.Tiles {
 			int minY = Math.Max( tileY - radius, 0 );
 			int maxY = Math.Min( tileY + radius, Main.maxTilesY - 1 );
 
-			(int x, int y, double weight) randPoint = (Main.rand.Next(minX, maxX), Main.rand.Next(minY, maxY), 0f);
-
-			Tile tile = Framing.GetTileSafely( randPoint.x, randPoint.y );
-			if( tile.active() == true ) {
-				return;
-			}
-
-			randPoint.weight = CursedBrambleTile.GaugeProspectiveBrambleTile( radius, tileX, tileY, randPoint.x, randPoint.y );
+			(int x, int y, double weight) randPoint = default;
 
 			for( int i = 1; i < numChecks; i++ ) {
 				(int x, int y) newPoint = ( Main.rand.Next(minX, maxX), Main.rand.Next(minY, maxY) );
 
-				tile = Framing.GetTileSafely( randPoint.x, randPoint.y );
-				if( tile?.active() == true ) {
+				if( !CursedBrambleTile.CanPlaceBrambleAt(newPoint.x, newPoint.y) ) {
+					continue;
+				}
+				if( !(validateAt?.Invoke(newPoint.x, newPoint.y) ?? true) ) {
 					continue;
 				}
 
-				double weight = CursedBrambleTile.GaugeProspectiveBrambleTile( radius, tileX, tileY, newPoint.x, newPoint.y );
+				double weight = CursedBrambleTile.GaugeProspectiveBrambleTile(
+					radius,
+					tileX,
+					tileY,
+					newPoint.x,
+					newPoint.y
+				);
 				if( weight > randPoint.weight ) {
 					randPoint = (newPoint.x, newPoint.y, weight);
 				}
 			}
 
-			CursedBrambleTile.CreateBrambleAt( randPoint.x, randPoint.y, sync );
+			if( randPoint != default ) {
+				CursedBrambleTile.CreateBrambleAt( randPoint.x, randPoint.y, sync );
+			}
 		}
 
 

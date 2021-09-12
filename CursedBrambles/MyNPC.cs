@@ -28,7 +28,14 @@ namespace CursedBrambles {
 			int thickness = npc.width > npc.height ? npc.width : npc.height;
 			thickness = (int)Math.Ceiling( (double)thickness / 16d );
 
-			CursedBrambleTile.CreateBramblePatchAt( tileX, tileY, thickness, 0.05f, Main.netMode == NetmodeID.Server );
+			CursedBrambleTile.CreateBramblePatchAt(
+				tileX: tileX,
+				tileY: tileY,
+				radius: thickness,
+				densityPercent: 0.05f,
+				validateAt: null,
+				sync: Main.netMode == NetmodeID.Server
+			);
 		}
 	}
 }

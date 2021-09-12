@@ -14,7 +14,7 @@ namespace CursedBrambles {
 			case ItemID.IceMirror:
 			case ItemID.RecallPotion:
 			case ItemID.CellPhone:
-				if( player.GetModPlayer<CursedBramblesPlayer>().IsNearBrambles ) {
+				if( player.GetModPlayer<CursedBramblesPlayer>().IsNearWarpBlockingBrambles ) {
 					if( player.whoAmI == Main.myPlayer ) {
 						Timers.SetTimer( "CursedBramblesWarpBlock", 2, false, () => {
 							Main.NewText( "Too many cursed brambles close by to warp.", Color.Yellow );

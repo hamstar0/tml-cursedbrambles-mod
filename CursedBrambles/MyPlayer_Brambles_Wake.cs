@@ -10,11 +10,22 @@ using CursedBrambles.Tiles;
 
 namespace CursedBrambles {
 	partial class CursedBramblesPlayer : ModPlayer {
-		internal void ActivateBrambleWake( bool isElevationChecked, int radius, int tickRate ) {
+		private const string TimerNameBase = "CursedBramblePlayerTrail";
+
+
+
+		////////////////
+
+		internal void ActivateBrambleWake(
+					bool isElevationChecked,
+					int radius,
+					int tickRate,
+					CursedBramblesAPI.ValidateBrambleCreateAt validateAt ) {
 			this.IsPlayerDefaultBrambleTrailElevationChecked = isElevationChecked;
 			this.BrambleWakeRadius = radius;
 			this.BrambleWakeTickRate = tickRate;
 			this.IsPlayerBrambleTrailAPIEnabled = true;
+			this.BrambleCreateValidator = validateAt;
 		}
 
 		internal void DeactivateBrambleWake() {
@@ -23,8 +34,6 @@ namespace CursedBrambles {
 
 
 		////////////////
-
-		 private const string TimerNameBase = "CursedBramblePlayerTrail";
 
 		private bool CanPlayerDefaultCreateCursedBramblesNearby() {
 			int tileY = (int)( this.player.position.Y / 16f );
@@ -41,7 +50,7 @@ namespace CursedBrambles {
 
 		////////////////
 
-		private void AttemptCreateCursedBrambleNearbyIf() {
+		private void CreateCursedBrambleNearbyIf( Func<int, int, bool> validateAt ) {
 			if( !this.IsPlayerProducingBrambleWake ) {
 				return;
 			}
@@ -50,9 +59,15 @@ namespace CursedBrambles {
 			}
 
 			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
+
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
 				if( this.OldPosition != default( Vector2 ) ) {
-					CursedBrambleTile.AttemptCreateNearby( this.OldPosition, this.BrambleWakeRadius, true );
+					CursedBrambleTile.CreateNearbyIf(
+						worldPos: this.OldPosition,
+						radius: this.BrambleWakeRadius,
+						validateAt: validateAt,
+						sync: true
+					);
 				}
 
 				this.OldPosition = this.player.Center;

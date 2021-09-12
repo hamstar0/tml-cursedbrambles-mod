@@ -18,7 +18,12 @@ namespace CursedBrambles {
 
 		public int BrambleWakeTickRate { get; private set; } = 15;
 
-		public bool IsNearBrambles { get; private set; } = false;
+		public bool IsNearWarpBlockingBrambles { get; private set; } = false;
+
+		////
+
+		public CursedBramblesAPI.ValidateBrambleCreateAt BrambleCreateValidator { get; private set; } = null;
+
 
 		////
 
@@ -59,7 +64,7 @@ namespace CursedBrambles {
 				if( this.BrambleProximityTimer-- <= 0 ) {
 					this.BrambleProximityTimer = 30;
 
-					this.IsNearBrambles = this.DetectIfNearbyBrambles();
+					this.IsNearWarpBlockingBrambles = this.DetectIfNearbyWarpBlockingBrambles();
 				}
 			}
 		}
@@ -73,7 +78,7 @@ namespace CursedBrambles {
 		}
 
 		private void PreUpdateHost() {
-			this.AttemptCreateCursedBrambleNearbyIf();
+			this.CreateCursedBrambleNearbyIf( null );
 		}
 
 
