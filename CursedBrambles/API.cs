@@ -4,10 +4,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using ModLibsCore.Classes.Errors;
 using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Classes.Loadable;
 
 
 namespace CursedBrambles {
-	public static class CursedBramblesAPI {
+	public partial class CursedBramblesAPI : ILoadable {
 		public delegate bool ValidateBrambleCreateAt( int tileX, int tileY );
 
 

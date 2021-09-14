@@ -66,5 +66,11 @@ namespace CursedBrambles {
 		[Range( 0, 10000 )]
 		[DefaultValue( 64 )]
 		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 64;
+
+
+		[Range( 0f, 9999f )]
+		[DefaultValue( 32f )]
+		[CustomModConfigItem( typeof( MyFloatInputElement ) )]
+		public float DamageToPBGBarriers { get; set; } = 32f;
 	}
 }

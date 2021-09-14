@@ -1,6 +1,7 @@
 displayName = Cursed Brambles
 author = hamstar
-version = 0.9.0
-modReferences = ModLibsCore@1.0.0, ModLibsGeneral@1.0.0
+version = 1.0.0
+modReferences = ModLibsCore@1.2.0, ModLibsGeneral@1.2.0
+weakReferences = SoulBarriers@0.24.3, WorldGates@1.2.4
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://github.com/hamstar0/tml-cursedbrambles-mod

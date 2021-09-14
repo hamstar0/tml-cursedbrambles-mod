@@ -2,7 +2,7 @@ using Terraria.ModLoader;
 
 
 namespace CursedBrambles {
-	public class CursedBramblesMod : Mod {
+	public partial  class CursedBramblesMod : Mod {
 		public static string GithubUserName => "hamstar0";
 		public static string GithubProjectName => "tml-cursedbrambles-mod";
 
@@ -15,13 +15,21 @@ namespace CursedBrambles {
 
 		////////////////
 
-		public CursedBramblesMod() {
-			CursedBramblesMod.Instance = this;
-		}
+		public bool IsSoulBarriersLoaded { get; private set; } = false;
+
+		public bool IsWorldGatesLoaded { get; private set; } = false;
+
+
 
 		////////////////
 
 		public override void Load() {
+			CursedBramblesMod.Instance = this;
+
+			this.IsSoulBarriersLoaded = ModLoader.GetMod( "SoulBarriers" ) != null;
+			this.IsWorldGatesLoaded = ModLoader.GetMod( "WorldGates" ) != null;
+
+			this.LoadBrambleCreateHooks();
 		}
 
 		public override void Unload() {

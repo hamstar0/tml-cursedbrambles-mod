@@ -44,10 +44,18 @@ namespace CursedBrambles.Tiles {
 		/// </summary>
 		/// <param name="minTileX"></param>
 		/// <param name="minTileY"></param>
-		/// <param name="radius"></param>
+		/// <param name="width"></param>
+		/// <param name="height"></param>
 		/// <param name="adjacentRadius"></param>
+		/// <param name="sync"></param>
 		/// <returns>`true` if a bramble was found and removed.</returns>
-		public static bool ErodeRandomBrambleWithinArea( int minTileX, int minTileY, int width, int height, int adjacentRadius ) {
+		public static bool ErodeRandomBrambleWithinArea(
+					int minTileX,
+					int minTileY,
+					int width,
+					int height,
+					int adjacentRadius,
+					bool sync ) {
 			int randTileX = minTileX + TmlLibraries.SafelyGetRand().Next( width );
 			int randTileY = minTileY + TmlLibraries.SafelyGetRand().Next( height );
 
@@ -56,7 +64,23 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			TileLibraries.KillTileSynced( randTileX, randTileY, false, false, true );
+			if( !sync ) {
+				WorldGen.KillTile(
+					i: randTileX,
+					j: randTileY,
+					fail: false,
+					effectOnly: false,
+					noItem: true
+				);
+			} else {
+				TileLibraries.KillTileSynced(
+					tileX: randTileX,
+					tileY: randTileY,
+					effectOnly: false,
+					dropsItem: false,
+					forceSyncIfUnchanged: true
+				);
+			}
 
 			CursedBrambleTile.ErodeBramblesWithinAreaRadiusRandomly( minTileX, minTileY, adjacentRadius );
 

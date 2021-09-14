@@ -55,10 +55,12 @@ namespace CursedBrambles.Tiles {
 			}
 
 			if( randPoint != default ) {
-				CursedBrambleTile.CreateBrambleAt( randPoint.x, randPoint.y, sync );
+				CursedBrambleTile.CreateBrambleAtIf( randPoint.x, randPoint.y, sync );
 			}
 		}
 
+
+		////////////////
 
 		private static double GaugeProspectiveBrambleTile(
 					int radius,
@@ -106,6 +108,8 @@ namespace CursedBrambles.Tiles {
 			return weight;
 		}
 
+
+		////
 
 		private static (int solids, int brambles) CountAdjacentBrambles( int tileX, int tileY ) {
 			int brambleType = ModContent.TileType<CursedBrambleTile>();
