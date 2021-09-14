@@ -26,7 +26,7 @@ namespace CursedBrambles.Tiles {
 					ref (int TileX, int TileY)[] tilePositions,
 					int radius,
 					float densityPercent,
-					Func<int, int, bool> validateAt,
+					CursedBramblesAPI.ValidateBrambleCreateAt validateAt,
 					bool sync ) {
 			UnifiedRandom rand = TmlLibraries.SafelyGetRand();
 
@@ -56,7 +56,7 @@ namespace CursedBrambles.Tiles {
 					int lastIdx,
 					int radius,
 					float densityPercent,
-					Func<int, int, bool> validateAt,
+					CursedBramblesAPI.ValidateBrambleCreateAt validateAt,
 					bool sync ) {
 			(int tileX, int tileY) tilePos = randTilePositions[lastIdx];
 
@@ -113,7 +113,7 @@ namespace CursedBrambles.Tiles {
 					int tileY,
 					int radius,
 					float densityPercent,
-					Func<int, int, bool> validateAt,
+					CursedBramblesAPI.ValidateBrambleCreateAt validateAt,
 					bool sync ) {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
 			var rand = TmlLibraries.SafelyGetRand();
