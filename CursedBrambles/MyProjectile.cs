@@ -20,7 +20,7 @@ namespace CursedBrambles {
 					(int)Math.Floor( (float)projectile.width / 16f )
 				);
 
-				CursedBramblesAPI.ClearBramblesWithinArea( area );
+				CursedBramblesAPI.ClearBramblesWithinArea( area, Main.netMode == NetmodeID.Server );
 			}
 
 			return base.PreAI( projectile );
