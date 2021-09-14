@@ -72,6 +72,7 @@ namespace CursedBrambles.Tiles {
 					effectOnly: false,
 					noItem: true
 				);
+				WorldGen.SquareTileFrame( randTileX, randTileY );
 			} else {
 				TileLibraries.KillTileSynced(
 					tileX: randTileX,

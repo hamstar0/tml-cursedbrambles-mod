@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -27,6 +28,26 @@ namespace CursedBrambles {
 			}
 
 			return base.CanUseItem( item, player );
+		}
+
+
+		////
+
+		public override void ModifyTooltips( Item item, List<TooltipLine> tooltips ) {
+			if( item.type != ItemID.PurificationPowder ) {
+				return;
+			}
+
+			var config = CursedBramblesConfig.Instance;
+			if( config.Get<bool>( nameof(config.PurificationPowderRemovesBrambles) ) ) {
+				tooltips.Add(
+					new TooltipLine(
+						this.mod,
+						"CursedBrambles_PurificationPowder",
+						"Removes cursed brambles."
+					)
+				);
+			}
 		}
 	}
 }
