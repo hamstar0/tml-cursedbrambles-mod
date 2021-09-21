@@ -17,8 +17,6 @@ namespace CursedBrambles {
 
 		public bool IsSoulBarriersLoaded { get; private set; } = false;
 
-		public bool IsWorldGatesLoaded { get; private set; } = false;
-
 
 
 		////////////////
@@ -27,13 +25,19 @@ namespace CursedBrambles {
 			CursedBramblesMod.Instance = this;
 
 			this.IsSoulBarriersLoaded = ModLoader.GetMod( "SoulBarriers" ) != null;
-			this.IsWorldGatesLoaded = ModLoader.GetMod( "WorldGates" ) != null;
-
-			this.LoadBrambleCreateHooks();
 		}
 
 		public override void Unload() {
 			CursedBramblesMod.Instance = null;
+		}
+
+
+		////////////////
+
+		public override void MidUpdateDustTime() {
+			if( this.IsSoulBarriersLoaded ) {
+				CursedBramblesMod.UpdateForBarriers_WeakRef();
+			}
 		}
 	}
 }

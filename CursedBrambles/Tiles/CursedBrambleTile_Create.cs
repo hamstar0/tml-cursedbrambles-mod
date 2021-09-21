@@ -21,7 +21,7 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			return true;
+			return CursedBramblesAPI.IsBrambleAllowedByHooks( tileX, tileY );
 		}
 
 

@@ -15,6 +15,21 @@ namespace CursedBrambles {
 		}
 
 
+		////////////////
+
+		public static bool IsBrambleAllowedByHooks( int tileX, int tileY ) {
+			ISet<ValidateBrambleCreateAt> hooks = ModContent.GetInstance<CursedBramblesAPI>().CanCreateBrambleAtHooks;
+
+			foreach( ValidateBrambleCreateAt hook in hooks ) {
+				if( !hook.Invoke(tileX, tileY) ) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+
+
 
 		////////////////
 

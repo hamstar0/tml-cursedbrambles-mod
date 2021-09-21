@@ -32,7 +32,7 @@ namespace CursedBrambles.Tiles {
 				return false;
 			}
 
-			TileLibraries.KillTileSynced( randTileX, randTileY, false, false, true );
+			TileLibraries.KillTile( randTileX, randTileY, false, false, true );
 
 			CursedBrambleTile.ErodeBramblesWithinAreaRadiusRandomly( tileX, tileY, adjacentRadius );
 
@@ -74,7 +74,7 @@ namespace CursedBrambles.Tiles {
 				);
 				WorldGen.SquareTileFrame( randTileX, randTileY );
 			} else {
-				TileLibraries.KillTileSynced(
+				TileLibraries.KillTile(
 					tileX: randTileX,
 					tileY: randTileY,
 					effectOnly: false,
@@ -123,7 +123,7 @@ namespace CursedBrambles.Tiles {
 				Tile tile = Framing.GetTileSafely( tileX, tileY );
 
 				if( tile.active() && tile.type == brambleType ) {
-					TileLibraries.KillTileSynced( tileX, tileY, false, false, true );
+					TileLibraries.KillTile( tileX, tileY, false, false, true );
 				}
 				return false;
 			} );
