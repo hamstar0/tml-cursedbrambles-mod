@@ -50,8 +50,8 @@ namespace CursedBrambles {
 		public int BrambleTicksPerDamage { get; set; } = 30;	//6
 
 		[Range( 1, 9999999 )]
-		[DefaultValue( 12 )]
-		public int BrambleDamage { get; set; } = 12;
+		[DefaultValue( 6 )]
+		public int BrambleDamage { get; set; } = 6;
 
 		[Range( 0f, 1f )]
 		[DefaultValue( 0.2f )]
