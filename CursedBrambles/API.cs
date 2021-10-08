@@ -14,6 +14,8 @@ namespace CursedBrambles {
 	public partial class CursedBramblesAPI : ILoadable {
 		public delegate bool ValidateBrambleCreateAt( int tileX, int tileY );
 
+		public delegate int GetTicks( out int averageTicks );
+
 
 
 		////////////////

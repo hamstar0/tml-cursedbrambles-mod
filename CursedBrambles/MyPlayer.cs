@@ -16,7 +16,10 @@ namespace CursedBrambles {
 
 		public int BrambleWakeRadius { get; private set; } = 64;
 
-		public int BrambleWakeTickRate { get; private set; } = 15;
+		public CursedBramblesAPI.GetTicks BrambleWakeTickRate { get; private set; } = ( out int i ) => {
+			i = 15;
+			return i;
+		};
 
 		public bool IsNearWarpBlockingBrambles { get; private set; } = false;
 

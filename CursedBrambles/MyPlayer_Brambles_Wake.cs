@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
@@ -19,7 +18,7 @@ namespace CursedBrambles {
 		internal void ActivateBrambleWake(
 					bool isElevationChecked,
 					int radius,
-					int tickRate,
+					CursedBramblesAPI.GetTicks tickRate,
 					CursedBramblesAPI.ValidateBrambleCreateAt validateAt ) {
 			this.IsPlayerDefaultBrambleTrailElevationChecked = isElevationChecked;
 			this.BrambleWakeRadius = radius;
@@ -60,8 +59,8 @@ namespace CursedBrambles {
 
 			string timerName = CursedBramblesPlayer.TimerNameBase+"_"+this.player.whoAmI;
 
-			Timers.SetTimer( timerName, this.BrambleWakeTickRate, false, () => {
-				if( this.OldPosition != default( Vector2 ) ) {
+			Timers.SetTimer( timerName, this.BrambleWakeTickRate.Invoke(out _), false, () => {
+				if( this.OldPosition != default ) {
 					CursedBrambleTile.CreateNearbyIf(
 						worldPos: this.OldPosition,
 						radius: this.BrambleWakeRadius,

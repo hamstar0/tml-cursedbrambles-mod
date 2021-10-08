@@ -31,6 +31,15 @@ namespace CursedBrambles.Tiles {
 		}
 
 
+		////////////////
+
+		public override void KillTile( int i, int j, ref bool fail, ref bool effectOnly, ref bool noItem ) {
+			Main.PlaySound( SoundID.Grass, new Vector2(i*16, j*16) );
+		}
+
+
+		////////////////
+
 		public override void DrawEffects( int i, int j, SpriteBatch sb, ref Color drawColor, ref int nextSpecialDrawIndex ) {
 			if( Main.rand.NextFloat() > 0.05f ) {
 				return;

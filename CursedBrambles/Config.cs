@@ -83,8 +83,8 @@ namespace CursedBrambles {
 		////
 
 		[Range( 0f, 9999f )]
-		[DefaultValue( 8f )]
+		[DefaultValue( 4f )]
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float DamageToPBGBarriers { get; set; } = 8f;
+		public float DamageToPBGBarriers { get; set; } = 4f;
 	}
 }
