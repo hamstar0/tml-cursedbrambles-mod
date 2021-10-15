@@ -36,7 +36,7 @@ namespace CursedBrambles {
 
 		public override void MidUpdateDustTime() {
 			if( this.IsSoulBarriersLoaded ) {
-				CursedBramblesMod.UpdateForBarriers_WeakRef();
+				CursedBramblesMod.UpdateBarrierCollisionsIf_SoulBarriers_WeakRef();
 			}
 		}
 	}

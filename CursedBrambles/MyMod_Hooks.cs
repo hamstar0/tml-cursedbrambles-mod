@@ -9,59 +9,69 @@ using CursedBrambles.Tiles;
 
 namespace CursedBrambles {
 	public partial  class CursedBramblesMod : Mod {
-		private static void ApplyBarrierBrambleCollision_WeakRef(
-					object rawBarrier,
-					int tileX,
-					int tileY,
-					double damage ) {
-			var hitAt = new Vector2( tileX*16, tileY*16 );
+		private static void UpdateBarrierCollisionsIf_SoulBarriers_WeakRef() {
+			var config = CursedBramblesConfig.Instance;
+			float barrierDmg = config.Get<float>( nameof(config.DamageToPBGBarriers) );
 
-			if( Main.netMode != NetmodeID.MultiplayerClient ) {
-				var barrier = rawBarrier as SoulBarriers.Barriers.BarrierTypes.Barrier;
-				barrier.ApplyMetaphysicalHit( hitAt, damage, true );
+			if( barrierDmg == 0f ) {
+				return;
 			}
 
-			TileLibraries.KillTile( tileX, tileY, false, false, true );
+			if( Main.netMode == NetmodeID.MultiplayerClient ) { // Let the server handle other players
+				CursedBramblesMod.UpdatePlayerBarrierCollisionsIf_SoulBarriers_WeakRef( Main.LocalPlayer, barrierDmg );
+			} else {
+				int maxPlr = Main.player.Length;
+				for( int i = 0; i < maxPlr; i++ ) {
+					Player plr = Main.player[i];
+					if( plr?.active == true ) {
+						CursedBramblesMod.UpdatePlayerBarrierCollisionsIf_SoulBarriers_WeakRef( plr, barrierDmg );
+					}
+				}
+			}
+		}
+
+
+		private static void UpdatePlayerBarrierCollisionsIf_SoulBarriers_WeakRef( Player plr, float barrierDmg ) {
+			SoulBarriers.Barriers.BarrierTypes.Barrier barrier = SoulBarriers.SoulBarriersAPI.GetPlayerBarrier( plr );
+			if( barrier == null || !barrier.IsActive ) {
+				return;
+			}
+
+			int brambleType = ModContent.TileType<CursedBrambleTile>();
+			ISet<(int, int)> tiles = SoulBarriers.SoulBarriersAPI.GetTilesUponBarrier( barrier, 8f );
+
+			foreach( (int x, int y) in tiles ) {
+				Tile tile = Main.tile[x, y];
+				if( tile?.active() != true || tile.type != brambleType ) {
+					continue;
+				}
+
+				if( !CursedBramblesMod.ApplyBarrierCollision_SoulBarriers_WeakRef(barrier, x, y, barrierDmg) ) {
+					break;
+				}
+			}
 		}
 
 
 		////////////////
 
-		private static void UpdateForBarriers_WeakRef() {
-			var config = CursedBramblesConfig.Instance;
-			float barrierDmg = config.Get<float>( nameof(config.DamageToPBGBarriers) );
-			if( barrierDmg == 0f ) {
-				return;
+		private static bool ApplyBarrierCollision_SoulBarriers_WeakRef(
+					object rawBarrier,
+					int tileX,
+					int tileY,
+					double damage ) {
+			var wldHitAt = new Vector2( tileX * 16, tileY * 16 );
+			var barrier = rawBarrier as SoulBarriers.Barriers.BarrierTypes.Barrier;
+
+			if( !barrier.IsActive ) {
+				return false;
 			}
 
-			int brambleType = ModContent.TileType<CursedBrambleTile>();
+			barrier.ApplyMetaphysicalHit( wldHitAt, damage, true );
 
-			int maxPlr = Main.player.Length;
-			for( int i = 0; i < maxPlr; i++ ) {
-				Player plr = Main.player[i];
-				if( plr?.active != true || plr.dead ) {
-					continue;
-				}
+			TileLibraries.KillTile( tileX, tileY, false, false, true );
 
-				SoulBarriers.Barriers.BarrierTypes.Barrier barrier = SoulBarriers.SoulBarriersAPI.GetPlayerBarrier( plr );
-				if( barrier == null || !barrier.IsActive ) {
-					continue;
-				}
-
-				ISet<(int, int)> tiles = SoulBarriers.SoulBarriersAPI.GetTilesUponBarrier( barrier );
-				foreach( (int x, int y) in tiles ) {
-					Tile tile = Main.tile[x, y];
-					if( tile?.active() != true || tile.type != brambleType ) {
-						continue;
-					}
-
-					CursedBramblesMod.ApplyBarrierBrambleCollision_WeakRef( barrier, x, y, barrierDmg );
-
-					if( !barrier.IsActive ) {
-						break;
-					}
-				}
-			}
+			return true;
 		}
 	}
 }
