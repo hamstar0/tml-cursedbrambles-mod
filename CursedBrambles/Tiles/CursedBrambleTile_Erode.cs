@@ -2,8 +2,8 @@
 using Terraria;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
-using ModLibsCore.Services.Timers;
 using ModLibsCore.Libraries.TModLoader;
+using ModLibsCore.Services.Timers;
 using ModLibsGeneral.Libraries.Tiles;
 
 
@@ -13,6 +13,35 @@ namespace CursedBrambles.Tiles {
 	/// weapons (except via. manual pickaxing), and entangles and poisons players. May support additional custom behavior.
 	/// </summary>
 	public partial class CursedBrambleTile : ModTile {
+		/// <summary>
+		/// Attempts to remove a bramble at a given tile.
+		/// </summary>
+		/// <param name="tileX"></param>
+		/// <param name="tileY"></param>
+		/// <param name="sync"></param>
+		/// <returns>`true` if a bramble was found and removed.</returns>
+		public static bool ErodeBrambleAt( int tileX, int tileY, bool sync ) {
+			int brambleType = ModContent.TileType<CursedBrambleTile>();
+			Tile tile = Framing.GetTileSafely( tileX, tileY );
+
+			if( !tile.active() || tile.type != brambleType ) {
+				return false;
+			}
+
+			return TileLibraries.KillTile(
+				tileX: tileX,
+				tileY: tileY,
+				effectOnly: false,
+				dropsItem: false,
+				forceSyncIfUnchanged: false,
+				syncIfClient: sync,
+				syncIfServer: sync
+			);
+		}
+
+
+		////////////////
+
 		/// <summary>
 		/// Attempts to remove a random bramble within a given (tile) radius of a given tile.
 		/// </summary>

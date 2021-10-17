@@ -41,6 +41,7 @@ namespace CursedBrambles {
 			ISet<(int, int)> tiles = SoulBarriers.SoulBarriersAPI.GetTilesUponBarrier( barrier, 8f );
 
 			foreach( (int x, int y) in tiles ) {
+//Dust.QuickDust( new Point(x, y), Color.Red );
 				Tile tile = Main.tile[x, y];
 				if( tile?.active() != true || tile.type != brambleType ) {
 					continue;

@@ -1,37 +1,36 @@
+using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ModLibsGeneral.Libraries.World;
 using CursedBrambles.Tiles;
 
 
 namespace CursedBrambles {
-	public partial  class CursedBramblesMod : Mod {
+	public partial class CursedBramblesMod : Mod {
 		private static void UpdateBrambleErode() {
 			var config = CursedBramblesConfig.Instance;
+			var myworld = ModContent.GetInstance<CursedBramblesWorld>();
 
-			int attempts = config.Get<int>( nameof( config.BrambleErodeRandomAttemptsPerTickPerSmallWorldArea ) );
-			switch( WorldLibraries.GetSize() ) {
-			case WorldSize.Medium:
-				attempts *= 3;
-				break;
-			case WorldSize.Large:
-				attempts *= 6;
-				break;
-			case WorldSize.SuperLarge:
-				attempts *= 8;
-				break;
-			}
+			//
 
-			for( int i = 0; i < attempts; i++ ) {
-				CursedBrambleTile.ErodeRandomBrambleWithinArea(
-					minTileX: 1,
-					minTileY: 1,
-					width: Main.maxTilesX - 2,
-					height: Main.maxTilesY - 2,
-					adjacentRadius: 8,
-					sync: Main.netMode == NetmodeID.Server
-				);
+			float erodePercSec = config.Get<float>( nameof(config.BrambleErodePercentChancePerSecond) );
+			float erodePercTick = erodePercSec / 60f;
+
+			int brambleType = ModContent.TileType<CursedBrambleTile>();
+
+			foreach( (int x, int y) in myworld.BramblesSnapshot.ToArray() ) {
+				Tile tile = Framing.GetTileSafely( x, y );
+				if( tile?.active() != true || tile.type != brambleType ) {
+					myworld.BramblesSnapshot.Remove( (x, y) );
+
+					continue;
+				}
+
+				if( Main.rand.NextFloat() < erodePercTick ) {
+					if( CursedBrambleTile.ErodeBrambleAt(x, y, Main.netMode == NetmodeID.Server) ) {
+						myworld.BramblesSnapshot.Remove( (x, y) );
+					}
+				}
 			}
 		}
 

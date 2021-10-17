@@ -69,9 +69,13 @@ namespace CursedBrambles {
 
 		////
 
-		[Range( 0, 10000 )]
+		[Range( 0f, 1f )]
+		[DefaultValue( 0.1f )]
+		public float BrambleErodePercentChancePerSecond { get; set; } = 0.1f;
+
+		/*[Range( 0, 10000 )]
 		[DefaultValue( 64 )]
-		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 64;
+		public int BrambleErodeRandomAttemptsPerTickPerSmallWorldArea { get; set; } = 64;*/
 
 
 		////
