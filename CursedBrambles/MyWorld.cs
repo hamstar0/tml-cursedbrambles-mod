@@ -6,7 +6,7 @@ using CursedBrambles.Tiles;
 
 namespace CursedBrambles {
 	public partial class CursedBramblesWorld : ModWorld {
-		internal IList<(int, int)> BramblesSnapshot = new List<(int, int)>();
+		internal ISet<(int, int)> BramblesSnapshot = new HashSet<(int, int)>();
 
 
 
@@ -20,7 +20,7 @@ namespace CursedBrambles {
 			int brambleType = ModContent.TileType<CursedBrambleTile>();
 
 			for( int j=1; j<Main.maxTilesY; j++ ) {
-				for( int i=1; j<Main.maxTilesX; i++ ) {
+				for( int i=1; i<Main.maxTilesX; i++ ) {
 					Tile tile = Main.tile[i, j];
 					if( tile?.active() != true || tile.type != brambleType ) {
 						continue;
