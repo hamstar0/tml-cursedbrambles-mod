@@ -34,9 +34,16 @@ namespace CursedBrambles {
 
 		////////////////
 
+		//public override void PreUpdate() {
+		//	this.UpdateSnapshotSlowScan();
+		//}
+
+
+		////////////////
+
 		 private int _LastSnapshotSlowScanPosition = 0;
 
-		public override void PreUpdate() {
+		private void UpdateSnapshotSlowScan() {
 			int brambleType = ModContent.TileType<CursedBrambleTile>();
 			int minX = this._LastSnapshotSlowScanPosition % Main.maxTilesX;
 			int minY = this._LastSnapshotSlowScanPosition / Main.maxTilesX;
