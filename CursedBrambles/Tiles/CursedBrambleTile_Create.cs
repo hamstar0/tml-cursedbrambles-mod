@@ -53,6 +53,9 @@ namespace CursedBrambles.Tiles {
 			newTile.liquid = tile.liquid;
 			newTile.liquidType( tile.liquidType() );
 
+			var myworld = ModContent.GetInstance<CursedBramblesWorld>();
+			myworld.BramblesSnapshot.Add( (tileX, tileY) );
+
 			if( sync && Main.netMode != NetmodeID.SinglePlayer ) {
 				NetMessage.SendData( MessageID.TileChange, -1, -1, null, 1, (float)tileX, (float)tileY, (float)brambleTileType, 0, 0, 0 );
 			}
