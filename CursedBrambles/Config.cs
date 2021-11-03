@@ -70,8 +70,8 @@ namespace CursedBrambles {
 		////
 
 		[Range( 0f, 1f )]
-		[DefaultValue( 0.1f )]
-		public float BrambleErodePercentChancePerSecond { get; set; } = 0.1f;
+		[DefaultValue( 1f / 40f )]
+		public float BrambleErodePercentChancePerSecond { get; set; } = 1f / 40f;
 
 		/*[Range( 0, 10000 )]
 		[DefaultValue( 64 )]

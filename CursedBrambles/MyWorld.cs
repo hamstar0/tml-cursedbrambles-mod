@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
+using ModLibsCore.Libraries.Debug;
 using CursedBrambles.Tiles;
 
 
@@ -12,7 +14,11 @@ namespace CursedBrambles {
 
 		////////////////
 
-		public override void Initialize() {
+		public override void Load( TagCompound tag ) {
+			if( tag.ContainsKey("_") ) {
+				tag.GetBool( "_" );
+			}
+
 			this.BramblesSnapshot.Clear();
 
 			//
@@ -31,6 +37,10 @@ namespace CursedBrambles {
 			}
 		}
 
+		public override TagCompound Save() {
+			return new TagCompound { { "_", true } };
+		}
+
 
 		////////////////
 
@@ -41,7 +51,7 @@ namespace CursedBrambles {
 
 		////////////////
 
-		 private int _LastSnapshotSlowScanPosition = 0;
+		/* private int _LastSnapshotSlowScanPosition = 0;
 
 		private void UpdateSnapshotSlowScan() {
 			int brambleType = ModContent.TileType<CursedBrambleTile>();
@@ -72,6 +82,6 @@ namespace CursedBrambles {
 			if( this._LastSnapshotSlowScanPosition >= (Main.maxTilesX * Main.maxTilesY) ) {
 				this._LastSnapshotSlowScanPosition = 0;
 			}
-		}
+		}*/
 	}
 }
