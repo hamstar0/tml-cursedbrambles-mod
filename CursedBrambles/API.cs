@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -8,6 +9,7 @@ using ModLibsCore.Libraries.Debug;
 using ModLibsCore.Classes.Loadable;
 using ModLibsGeneral.Libraries.Tiles;
 using CursedBrambles.Tiles;
+using CursedBrambles.Generators;
 
 
 namespace CursedBrambles {
@@ -16,6 +18,13 @@ namespace CursedBrambles {
 
 		public delegate int GetTicks( out int averageTicks );
 
+
+
+		////////////////
+		
+		public static void AddBrambleGenerator( BrambleGen gen ) {
+			ModContent.GetInstance<BrambleGenManager>().AddGen( gen );
+		}
 
 
 		////////////////
@@ -43,5 +52,21 @@ namespace CursedBrambles {
 				}
 			}
 		}
+
+
+
+		////////////////
+
+		private ISet<ValidateBrambleCreateAt> CanCreateBrambleAtHooks = new HashSet<ValidateBrambleCreateAt>();
+
+
+
+		////////////////
+
+		void ILoadable.OnModsLoad() { }
+
+		void ILoadable.OnModsUnload() { }
+
+		void ILoadable.OnPostModsLoad() { }
 	}
 }

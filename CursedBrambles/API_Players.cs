@@ -46,7 +46,7 @@ namespace CursedBrambles {
 
 			manuallyActivated = myplayer.IsPlayerBrambleTrailAPIEnabled;
 			isElevationConsidered = myplayer.IsPlayerDefaultBrambleTrailElevationChecked;
-			radius = myplayer.BrambleWakeRadius;
+			radius = myplayer.BrambleWakeTileRadius;
 			tickRate = myplayer.BrambleWakeTickRate.Invoke( out _ );
 			validateAt = myplayer.BrambleCreateValidator;
 			return myplayer.IsPlayerProducingBrambleWake;
@@ -58,7 +58,7 @@ namespace CursedBrambles {
 		public static bool SetPlayerToCreateBrambleWake(
 					Player player,
 					bool isElevationChecked,
-					int radius,
+					int tileRadius,
 					int tickRate,
 					ValidateBrambleCreateAt validateAt ) {
 			int GetTickRate( out int blah ) {
@@ -69,18 +69,18 @@ namespace CursedBrambles {
 			//
 
 			return CursedBramblesAPI.SetPlayerToCreateBrambleWake(
-				player,
-				isElevationChecked,
-				radius,
-				GetTickRate,
-				validateAt
+				player: player,
+				isElevationChecked: isElevationChecked,
+				tileRadius: tileRadius,
+				tickRate: GetTickRate,
+				validateAt: validateAt
 			);
 		}
 
 		public static bool SetPlayerToCreateBrambleWake(
 					Player player,
 					bool isElevationChecked,
-					int radius,
+					int tileRadius,
 					GetTicks tickRate,
 					ValidateBrambleCreateAt validateAt ) {
 			if( CursedBramblesConfig.Instance.DebugModeInfo ) {
@@ -90,7 +90,7 @@ namespace CursedBrambles {
 
 			var myplayer = player.GetModPlayer<CursedBramblesPlayer>();
 
-			myplayer.ActivateBrambleWake( isElevationChecked, radius, tickRate, validateAt );
+			myplayer.ActivateBrambleWake( isElevationChecked, tileRadius, tickRate, validateAt );
 
 			return true;
 		}

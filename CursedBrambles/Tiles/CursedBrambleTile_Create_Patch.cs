@@ -60,7 +60,7 @@ namespace CursedBrambles.Tiles {
 					bool sync ) {
 			(int tileX, int tileY) tilePos = randTilePositions[lastIdx];
 
-			int bramblesPlaced = CursedBrambleTile.CreateBramblePatchAt(
+			int bramblesPlaced = CursedBrambleTile.CreateBramblePatchAt_If(
 				tilePos.tileX,
 				tilePos.tileY,
 				radius,
@@ -108,7 +108,7 @@ namespace CursedBrambles.Tiles {
 		/// <param name="validateAt"></param>
 		/// <param name="sync"></param>
 		/// <returns></returns>
-		public static int CreateBramblePatchAt(
+		public static int CreateBramblePatchAt_If(
 					int tileX,
 					int tileY,
 					int radius,
@@ -118,10 +118,12 @@ namespace CursedBrambles.Tiles {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
 			var rand = TmlLibraries.SafelyGetRand();
 
-			Tile tileAt = Main.tile[tileX, tileY];
-			if( tileAt != null && tileAt.active() && tileAt.type == brambleTileType ) {
-				return 0;
-			}
+			//Tile tileAt = Main.tile[tileX, tileY];
+			//if( tileAt != null && tileAt.active() && tileAt.type == brambleTileType ) {
+			//	return 0;
+			//}
+
+			//
 
 			int bramblesPlaced = 0;
 
@@ -143,7 +145,9 @@ namespace CursedBrambles.Tiles {
 						continue;
 					}
 
-					Tile tile = CursedBrambleTile.CreateBrambleAtIf( newX, newY, sync );
+					//
+
+					Tile tile = CursedBrambleTile.CreateBrambleAt_If( newX, newY, sync );
 					if( tile != null ) {
 						bramblesPlaced++;
 					}

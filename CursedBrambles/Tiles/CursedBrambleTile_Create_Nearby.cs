@@ -11,24 +11,31 @@ namespace CursedBrambles.Tiles {
 	/// custom behavior.
 	/// </summary>
 	public partial class CursedBrambleTile : ModTile {
+		public delegate bool CanTileBeBramble( int tileX, int tileY );
+
+
+
+		////////////////
+
 		/// <summary></summary>
 		/// <param name="worldPos"></param>
-		/// <param name="radius"></param>
+		/// <param name="tileRadius"></param>
 		/// <param name="sync"></param>
-		public static void CreateNearbyIf(
+		/// <returns></returns>
+		public static (int tileX, int tileY)? CreateBrambleNearby_If(
 					Vector2 worldPos,
-					int radius,
-					Func<int, int, bool> validateAt,
+					int tileRadius,
+					CanTileBeBramble validateAt,
 					bool sync ) {
-			int numChecks = radius / 4;
+			int numChecks = tileRadius / 4;
 
 			int tileX = (int)worldPos.X / 16;
 			int tileY = (int)worldPos.Y / 16;
 
-			int minX = Math.Max( tileX - radius, 0 );
-			int maxX = Math.Min( tileX + radius, Main.maxTilesX - 1 );
-			int minY = Math.Max( tileY - radius, 0 );
-			int maxY = Math.Min( tileY + radius, Main.maxTilesY - 1 );
+			int minX = Math.Max( tileX - tileRadius, 0 );
+			int maxX = Math.Min( tileX + tileRadius, Main.maxTilesX - 1 );
+			int minY = Math.Max( tileY - tileRadius, 0 );
+			int maxY = Math.Min( tileY + tileRadius, Main.maxTilesY - 1 );
 
 			(int x, int y, double weight) randPoint = default;
 
@@ -38,32 +45,42 @@ namespace CursedBrambles.Tiles {
 				if( !CursedBrambleTile.CanPlaceBrambleAt(newPoint.x, newPoint.y) ) {
 					continue;
 				}
-				if( !(validateAt?.Invoke(newPoint.x, newPoint.y) ?? true) ) {
+				if( !validateAt?.Invoke(newPoint.x, newPoint.y) ?? false ) {
 					continue;
 				}
 
+				//
+
 				double weight = CursedBrambleTile.GaugeProspectiveBrambleTile(
-					radius,
-					tileX,
-					tileY,
-					newPoint.x,
-					newPoint.y
+					tileRadius: tileRadius,
+					plrTileX: tileX,
+					plrTileY: tileY,
+					testTileX: newPoint.x,
+					testTileY: newPoint.y
 				);
 				if( weight > randPoint.weight ) {
 					randPoint = (newPoint.x, newPoint.y, weight);
 				}
 			}
 
+			//
+
+			Tile tile = null;
+
 			if( randPoint != default ) {
-				CursedBrambleTile.CreateBrambleAtIf( randPoint.x, randPoint.y, sync );
+				tile = CursedBrambleTile.CreateBrambleAt_If( randPoint.x, randPoint.y, sync );
 			}
+
+			return tile != null
+				? (randPoint.x, randPoint.y)
+				: ((int, int)?)null;
 		}
 
 
 		////////////////
 
 		private static double GaugeProspectiveBrambleTile(
-					int radius,
+					int tileRadius,
 					int plrTileX,
 					int plrTileY,
 					int testTileX,
@@ -73,8 +90,8 @@ namespace CursedBrambles.Tiles {
 
 			double dist = Math.Sqrt( (diffX * diffX) + (diffY * diffY) );
 
-			double radiusFirstDist = (double)radius * 0.25d;
-			double radiusLastDist = (double)radius - radiusFirstDist;
+			double radiusFirstDist = (double)tileRadius * 0.25d;
+			double radiusLastDist = (double)tileRadius - radiusFirstDist;
 			double distAfterFirstRadius = dist - radiusFirstDist;
 
 			// distance before the radius's 1/4 mark give diminishing returns

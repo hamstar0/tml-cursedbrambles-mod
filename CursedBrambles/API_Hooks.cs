@@ -28,21 +28,5 @@ namespace CursedBrambles {
 
 			return true;
 		}
-
-
-
-		////////////////
-
-		private ISet<ValidateBrambleCreateAt> CanCreateBrambleAtHooks = new HashSet<ValidateBrambleCreateAt>();
-
-
-
-		////////////////
-
-		void ILoadable.OnModsLoad() { }
-
-		void ILoadable.OnModsUnload() { }
-
-		void ILoadable.OnPostModsLoad() { }
 	}
 }

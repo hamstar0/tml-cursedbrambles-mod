@@ -28,7 +28,7 @@ namespace CursedBrambles {
 			int thickness = npc.width > npc.height ? npc.width : npc.height;
 			thickness = (int)Math.Ceiling( (double)thickness / 16d );
 
-			CursedBrambleTile.CreateBramblePatchAt(
+			CursedBrambleTile.CreateBramblePatchAt_If(
 				tileX: tileX,
 				tileY: tileY,
 				radius: thickness,

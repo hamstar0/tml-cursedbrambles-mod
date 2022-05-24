@@ -33,11 +33,13 @@ namespace CursedBrambles.Tiles {
 		/// <param name="tileX"></param>
 		/// <param name="tileY"></param>
 		/// <returns>`null` if bramble is blocked.</returns>
-		public static Tile CreateBrambleAtIf( int tileX, int tileY, bool sync ) {
+		public static Tile CreateBrambleAt_If( int tileX, int tileY, bool sync ) {
 			int brambleTileType = ModContent.TileType<CursedBrambleTile>();
-			if( !WorldGen.PlaceTile( tileX, tileY, brambleTileType ) ) {
+			if( !WorldGen.PlaceTile(tileX, tileY, brambleTileType) ) {
 				return null;
 			}
+
+			//
 
 			Tile tile = Framing.GetTileSafely( tileX, tileY );
 			Tile newTile = Main.tile[tileX, tileY];
@@ -55,6 +57,8 @@ namespace CursedBrambles.Tiles {
 
 			var myworld = ModContent.GetInstance<CursedBramblesWorld>();
 			myworld.BramblesSnapshot.Add( (tileX, tileY) );
+
+			//
 
 			if( sync && Main.netMode != NetmodeID.SinglePlayer ) {
 				NetMessage.SendData( MessageID.TileChange, -1, -1, null, 1, (float)tileX, (float)tileY, (float)brambleTileType, 0, 0, 0 );

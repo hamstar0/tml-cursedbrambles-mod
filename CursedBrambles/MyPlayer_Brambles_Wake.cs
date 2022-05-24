@@ -17,11 +17,11 @@ namespace CursedBrambles {
 
 		internal void ActivateBrambleWake(
 					bool isElevationChecked,
-					int radius,
+					int tileRadius,
 					CursedBramblesAPI.GetTicks tickRate,
 					CursedBramblesAPI.ValidateBrambleCreateAt validateAt ) {
 			this.IsPlayerDefaultBrambleTrailElevationChecked = isElevationChecked;
-			this.BrambleWakeRadius = radius;
+			this.BrambleWakeTileRadius = tileRadius;
 			this.BrambleWakeTickRate = tickRate;
 			this.IsPlayerBrambleTrailAPIEnabled = true;
 			this.BrambleCreateValidator = validateAt;
@@ -49,7 +49,7 @@ namespace CursedBrambles {
 
 		////////////////
 
-		private void CreateCursedBrambleNearbyIf( Func<int, int, bool> validateAt ) {
+		private void CreateCursedBrambleNearbyIf( CursedBrambleTile.CanTileBeBramble validateAt ) {
 			if( !this.IsPlayerProducingBrambleWake ) {
 				return;
 			}
@@ -61,9 +61,9 @@ namespace CursedBrambles {
 
 			Timers.SetTimer( timerName, this.BrambleWakeTickRate.Invoke(out _), false, () => {
 				if( this.OldPosition != default ) {
-					CursedBrambleTile.CreateNearbyIf(
+					CursedBrambleTile.CreateBrambleNearby_If(
 						worldPos: this.OldPosition,
-						radius: this.BrambleWakeRadius,
+						tileRadius: this.BrambleWakeTileRadius,
 						validateAt: validateAt,
 						sync: true
 					);

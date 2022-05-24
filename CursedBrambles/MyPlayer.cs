@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CursedBrambles.Buffs;
 
 
 namespace CursedBrambles {
@@ -14,7 +13,7 @@ namespace CursedBrambles {
 
 		////
 
-		public int BrambleWakeRadius { get; private set; } = 64;
+		public int BrambleWakeTileRadius { get; private set; } = 64;
 
 		public CursedBramblesAPI.GetTicks BrambleWakeTickRate { get; private set; } = ( out int i ) => {
 			i = 15;
