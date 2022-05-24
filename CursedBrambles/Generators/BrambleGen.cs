@@ -5,12 +5,29 @@ using System.Linq;
 
 namespace CursedBrambles.Generators {
 	public abstract class BrambleGen {
-		public BrambleGen Parent { get; protected set; }
+		public BrambleGen Parent { get; }
 
-		protected ISet<BrambleGen> Branches { get; } = new HashSet<BrambleGen>();
+		protected ISet<BrambleGen> Branches = new HashSet<BrambleGen>();
 
-		public int TicksUntilNextGen { get; private set; } = 0;
+		public int TicksUntilNextGen { get; protected set; } = 0;
 
+		public int Size { get; protected set; } = 0;
+
+
+
+		////////////////
+		
+		public BrambleGen( BrambleGen parent, int size ) {
+			this.Parent = parent;
+			this.Size = size;
+		}
+
+
+		////////////////
+		
+		public void SetSize( int newSize ) {
+			this.Size = newSize;
+		}
 
 
 		////////////////
