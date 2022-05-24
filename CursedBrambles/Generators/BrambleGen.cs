@@ -1,59 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Terraria;
 
 
 namespace CursedBrambles.Generators {
-	public abstract class BrambleGen {
-		public BrambleGen Parent { get; }
+	public abstract partial class BrambleGen {
+		protected ISet<BrambleGen> SubGens = new HashSet<BrambleGen>();
 
-		protected ISet<BrambleGen> Branches = new HashSet<BrambleGen>();
-
-		public int TicksUntilNextGen { get; protected set; } = 0;
-
-		public int Size { get; protected set; } = 0;
+		private int GenTickRate;
+		private int TicksUntilNextGen = 0;
 
 
 
 		////////////////
 		
-		public BrambleGen( BrambleGen parent, int size ) {
-			this.Parent = parent;
-			this.Size = size;
-		}
-
-
-		////////////////
-		
-		public void SetSize( int newSize ) {
-			this.Size = newSize;
+		public BrambleGen( int tickRate ) {
+			this.GenTickRate = tickRate;
 		}
 
 
 		////////////////
 
-		internal bool Update() {
-			foreach( BrambleGen branch in this.Branches.ToArray() ) {
-				if( !branch.Update() ) {
-					this.Branches.Remove( branch );
-				}
+		protected virtual bool UpdateRegenTicks() {
+			return this.TicksUntilNextGen-- > 0;
+		}
+
+		protected virtual void ResetRegenTicks() {
+			this.TicksUntilNextGen = this.GenTickRate;
+		}
+
+
+		////////////////
+
+		public abstract bool CanGen(); //this.SubGens.Count > 0
+
+		////
+
+		protected virtual void Gen() { }    //List<(int tileX, int tileY)> gennedBrambles
+
+
+		////////////////
+
+		internal void Update() {
+			if( !this.UpdateRegenTicks() ) {
+				return;
+			}
+
+			this.ResetRegenTicks();
+
+			//
+
+			if( this.CanGen() ) {
+				this.Gen();
 			}
 
 			//
 
-			if( this.TicksUntilNextGen-- <= 0 ) {
-				bool canRegen = this.Gen( out int ticks );
-				this.TicksUntilNextGen = ticks;
+			foreach( BrambleGen subGen in this.SubGens.ToArray() ) {
+				if( !this.CanGen() ) {
+					break;
+				}
 
-				return canRegen;
+				//
+
+				if( subGen.CanGen() ) {
+					subGen.Update();
+				}
+
+				if( !subGen.CanGen() ) {
+					this.SubGens.Remove( subGen );
+				}
 			}
-
-			return true;
 		}
-
-
-		////////////////
-
-		protected abstract bool Gen( out int ticksUntilNextGen );
 	}
 }

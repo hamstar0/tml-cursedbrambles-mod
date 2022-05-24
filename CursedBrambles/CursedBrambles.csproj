@@ -24,4 +24,7 @@
       <HintPath>..\..\..\Soul Barriers\Project\SoulBarriers\bin\Release\net452\SoulBarriers.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Generators\Samples\" />
+  </ItemGroup>
 </Project>

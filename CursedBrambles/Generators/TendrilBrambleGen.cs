@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using ModLibsCore.Classes.Errors;
 using CursedBrambles.Tiles;
 
 
 namespace CursedBrambles.Generators {
 	public partial class TendrilBrambleGen : BrambleGen {
-		protected int StartTickRate;
+		public BloomBrambleGen Parent { get; }
 
 		protected int CurrTileX;
 		protected int CurrTileY;
@@ -16,39 +17,45 @@ namespace CursedBrambles.Generators {
 
 
 
-		////
-
-		public TendrilBrambleGen( BrambleGen parent, int size, int tickRate, int startTileX, int startTileY )
-				: base( parent, size ) {
-			this.StartTickRate = tickRate;
-			this.CurrTileX = startTileX;
-			this.CurrTileY = startTileY;
-		}
-
-
 		////////////////
 
-		protected override bool Gen( out int ticksUntilNextGen ) {
-			Tile brambleTile = CursedBrambleTile.CreateBrambleAt_If( this.CurrTileX, this.CurrTileY, true );
-
-			if( brambleTile == null ) {
-				this.Parent?.SetSize( this.Parent.Size + (int)((float)this.Size * 0.75f) );
-			} else {
-				this.Size--;
-
-				this.IterateBloom();
-			}
+		public TendrilBrambleGen( BloomBrambleGen parent, int tickRate, int tileX, int tileY )
+					: base( tickRate ) {
+			this.Parent = parent;
+			this.CurrTileX = tileX;
+			this.CurrTileY = tileY;
 
 			//
 
-			ticksUntilNextGen = this.StartTickRate;
-			return true;
+			this.Heading = (float)Math.PI * Main.rand.NextFloat();
+		}
+
+		////////////////
+
+		public override bool CanGen() {
+			return this.Parent.GetSize() > 0;
 		}
 
 
 		////////////////
 
-		protected void IterateBloom() {
+		protected override void Gen() {
+			int tileX = this.CurrTileX;
+			int tileY = this.CurrTileY;
+
+			Tile brambleTile = CursedBrambleTile.CreateBrambleAt_If( tileX, tileY, true );
+
+			if( brambleTile != null ) {
+				this.Parent.AddSize( -1 );
+
+				this.IterateGrowth();
+			}
+		}
+
+
+		////////////////
+		
+		protected void IterateGrowth() {
 			float growthRange = 2.5f * 16f;
 
 			//
