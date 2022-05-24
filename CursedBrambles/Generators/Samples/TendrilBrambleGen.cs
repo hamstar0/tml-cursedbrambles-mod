@@ -6,7 +6,7 @@ using ModLibsCore.Classes.Errors;
 using CursedBrambles.Tiles;
 
 
-namespace CursedBrambles.Generators {
+namespace CursedBrambles.Generators.Samples {
 	public partial class TendrilBrambleGen : BrambleGen {
 		public BloomBrambleGen Parent { get; }
 

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 
 
-namespace CursedBrambles.Generators {
+namespace CursedBrambles.Generators.Samples {
 	public partial class BloomBrambleGen : BrambleGen {
 		protected int Size;
 
