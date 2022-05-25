@@ -8,7 +8,7 @@ namespace CursedBrambles.Generators {
 	public abstract partial class BrambleGen {
 		protected ISet<BrambleGen> SubGens = new HashSet<BrambleGen>();
 
-		private int GenTickRate;
+		public int GenTickRate { get; private set; }
 		private int TicksUntilNextGen = 0;
 
 
@@ -37,12 +37,20 @@ namespace CursedBrambles.Generators {
 
 		////
 
-		protected virtual void Gen() { }    //List<(int tileX, int tileY)> gennedBrambles
+		protected virtual void Gen( IDictionary<BrambleGen, HashSet<(int tileX, int tileY)>> gennedBrambles ) { }
+
+		protected virtual void PostGen( IDictionary<BrambleGen, HashSet<(int tileX, int tileY)>> gennedBrambles ) { }
 
 
 		////////////////
 
 		internal void Update() {
+			var gennedBrambles = new Dictionary<BrambleGen, HashSet<(int tileX, int tileY)>>();
+
+			this.Update_Protected( gennedBrambles );
+		}
+
+		protected void Update_Protected( IDictionary<BrambleGen, HashSet<(int tileX, int tileY)>> gennedBrambles ) {
 			if( !this.UpdateRegenTicks() ) {
 				return;
 			}
@@ -52,7 +60,7 @@ namespace CursedBrambles.Generators {
 			//
 
 			if( this.CanGen() ) {
-				this.Gen();
+				this.Gen( gennedBrambles );
 			}
 
 			//
@@ -65,12 +73,18 @@ namespace CursedBrambles.Generators {
 				//
 
 				if( subGen.CanGen() ) {
-					subGen.Update();
+					subGen.Update_Protected( gennedBrambles );
 				}
 
 				if( !subGen.CanGen() ) {
 					this.SubGens.Remove( subGen );
 				}
+			}
+
+			//
+
+			if( gennedBrambles.Count > 0 ) {
+				this.PostGen( gennedBrambles );
 			}
 		}
 	}
