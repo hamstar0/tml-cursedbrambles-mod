@@ -24,7 +24,7 @@ namespace CursedBrambles.Generators.Samples {
 		////////////////
 
 		public (float newHeading, int newTileX, int newTileY)? FindGrowthTile_If( float heading, int tileX, int tileY ) {
-			int attempts = 10;
+			int attempts = 20;
 
 			//
 
@@ -47,7 +47,7 @@ namespace CursedBrambles.Generators.Samples {
 		////
 
 		private (float newHeading, int newTileX, int newTileY) GuessGrowthTile( float heading, int currTileX, int currTileY ) {
-			float growthRange = 2.5f * 16f;
+			float growthRange = 1.5f * 16f;
 
 			//
 

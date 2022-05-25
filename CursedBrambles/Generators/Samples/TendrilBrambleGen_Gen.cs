@@ -13,9 +13,9 @@ namespace CursedBrambles.Generators.Samples {
 				return false;
 			}
 
-			Tile currTile = Main.tile[this.CurrTileX, this.CurrTileY];
-
-			return currTile?.active() != true;
+			//Tile currTile = Main.tile[this.CurrTileX, this.CurrTileY];
+			//return currTile?.active() != true;
+			return this.IsGrowthUnimpeded;
 		}
 
 
@@ -30,12 +30,12 @@ namespace CursedBrambles.Generators.Samples {
 			if( brambleTile != null ) {
 				this.Parent.AddSize( -1 );
 
-				this.IterateGrowth_If();
-
-				//
-
 				gennedBrambles[ this ] = new HashSet<(int, int)> { (tileX, tileY) };
 			}
+
+			//
+
+			this.IsGrowthUnimpeded = this.IterateGrowth_If();
 		}
 	}
 }

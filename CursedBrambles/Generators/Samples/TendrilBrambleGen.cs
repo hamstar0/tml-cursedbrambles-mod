@@ -14,6 +14,8 @@ namespace CursedBrambles.Generators.Samples {
 
 		public float Heading { get; protected set; } = 0f;
 
+		private bool IsGrowthUnimpeded = true;
+
 
 
 		////////////////
