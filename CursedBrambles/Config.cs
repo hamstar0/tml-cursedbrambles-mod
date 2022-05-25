@@ -27,6 +27,8 @@ namespace CursedBrambles {
 
 		public bool DebugModeInfo { get; set; } = false;
 
+		public bool DebugModeCheats { get; set; } = false;
+
 		////
 
 		[DefaultValue( true )]

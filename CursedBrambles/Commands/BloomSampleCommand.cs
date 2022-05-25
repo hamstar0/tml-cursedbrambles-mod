@@ -29,6 +29,11 @@ namespace CursedBrambles.Commands {
 				return;
 			}
 
+			if( !CursedBramblesConfig.Instance.DebugModeCheats ) {
+				caller.Reply( "Activate cheats for this mod, first.", Color.Yellow );
+				return;
+			}
+
 			if( args.Length != 1 ) {
 				caller.Reply( "Invalid parameters.", Color.Yellow );
 				return;

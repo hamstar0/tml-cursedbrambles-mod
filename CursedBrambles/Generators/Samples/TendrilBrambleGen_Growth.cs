@@ -55,35 +55,37 @@ namespace CursedBrambles.Generators.Samples {
 			rand = rand * rand * rand;
 			rand *= Main.rand.NextBool() ? 1f : -1f;
 
-			float newHeading = heading + (float)Math.PI * rand;
-			if( newHeading < 0f ) {
-				newHeading += (float)Math.PI;
-			} else if( newHeading > (float)Math.PI ) {
-				newHeading %= (float)Math.PI;
-			}
-
-			Vector2 vecHeading = Vector2.One.RotatedBy( newHeading );
+			float newHeading = heading + ((float)Math.PI * rand);
+			//if( newHeading < 0f ) {
+			//	newHeading += (float)Math.PI;
+			//} else if( newHeading > (float)Math.PI ) {
+			//	newHeading %= (float)Math.PI;
+			//}
 
 			//
 
-			float growthDistX = 1f + (Main.rand.NextFloat() * growthRange);
-			float growthDistY = 1f + (Main.rand.NextFloat() * growthRange);
+			float growthDist = 1f + (Main.rand.NextFloat() * growthRange);
 
-			currTileX += (int)( vecHeading.X * growthDistX );
-			currTileY += (int)( vecHeading.Y * growthDistY );
+			Vector2 vecHeading = Vector2.One.RotatedBy( newHeading );
+			vecHeading *= growthDist;
 
-			if( currTileX <= 0 ) {
-				currTileX = 1;
-			} else if( currTileX >= Main.maxTilesX ) {
-				currTileX = Main.maxTilesX - 1;
+			//
+
+			int newTileX = currTileX + (int)vecHeading.X;
+			int newTileY = currTileY + (int)vecHeading.Y;
+
+			if( newTileX <= 0 ) {
+				newTileX = 1;
+			} else if( newTileX >= Main.maxTilesX ) {
+				newTileX = Main.maxTilesX - 1;
 			}
-			if( currTileY <= 0 ) {
-				currTileY = 1;
-			} else if( currTileY >= Main.maxTilesY ) {
-				currTileY = Main.maxTilesY - 1;
+			if( newTileY <= 0 ) {
+				newTileY = 1;
+			} else if( newTileY >= Main.maxTilesY ) {
+				newTileY = Main.maxTilesY - 1;
 			}
 
-			return (heading, currTileX, currTileY);
+			return (newHeading, newTileX, newTileY);
 		}
 	}
 }

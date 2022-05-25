@@ -14,15 +14,15 @@ namespace CursedBrambles.Generators {
 
 
 		protected void Update_Protected( IDictionary<BrambleGen, HashSet<(int tileX, int tileY)>> gennedBrambles ) {
-			if( !this.UpdateRegenTicks() ) {
-				return;
-			}
+			bool canGenMeNow = this.UpdateRegenTicks();
 
-			this.ResetRegenTicks();
+			if( canGenMeNow ) {
+				this.ResetRegenTicks();
+			}
 
 			//
 
-			if( this.CanGen() ) {
+			if( canGenMeNow && this.CanGen() ) {
 				this.Gen( gennedBrambles );
 			}
 
