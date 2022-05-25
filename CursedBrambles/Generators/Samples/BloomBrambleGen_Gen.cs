@@ -32,7 +32,7 @@ namespace CursedBrambles.Generators.Samples {
 
 						//
 
-						var gen = new TendrilBrambleGen( this, this.GenTickRate, newTile.Value.newX, newTile.Value.newY );
+						var gen = new TendrilBrambleGen( this.Info, this.GenTickRate, newTile.Value.newX, newTile.Value.newY );
 
 						this.SubGens.Add( gen );
 					}

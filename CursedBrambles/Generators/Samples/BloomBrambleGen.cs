@@ -6,7 +6,8 @@ using Terraria;
 
 namespace CursedBrambles.Generators.Samples {
 	public partial class BloomBrambleGen : BrambleGen {
-		protected int Size;
+		public BramblePatchInfo Info { get; }
+
 		protected int AddedTickRateVariation;
 
 
@@ -15,7 +16,7 @@ namespace CursedBrambles.Generators.Samples {
 
 		public BloomBrambleGen( int size, int minTickRate, int addedTickRateVariation, int tileX, int tileY )
 					: base( minTickRate ) {
-			this.Size = size;
+			this.Info = new BramblePatchInfo( size );
 			this.AddedTickRateVariation = addedTickRateVariation;
 
 			//
@@ -29,11 +30,11 @@ namespace CursedBrambles.Generators.Samples {
 		////////////////
 		
 		public virtual int GetSize() {
-			return this.Size;
+			return this.Info.Size;
 		}
 
 		public virtual void AddSize( int size ) {
-			this.Size += size;
+			this.Info.Size += size;
 		}
 
 
@@ -45,7 +46,7 @@ namespace CursedBrambles.Generators.Samples {
 				newTickRate += Main.rand.Next( 0, this.AddedTickRateVariation + 1 );
 			}
 
-			this.SubGens.Add( new TendrilBrambleGen(this, newTickRate, tileX, tileY) );
+			this.SubGens.Add( new TendrilBrambleGen(this.Info, newTickRate, tileX, tileY) );
 		}
 	}
 }

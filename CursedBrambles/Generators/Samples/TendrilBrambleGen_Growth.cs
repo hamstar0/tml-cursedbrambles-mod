@@ -47,26 +47,30 @@ namespace CursedBrambles.Generators.Samples {
 		////
 
 		private (float newHeading, int newTileX, int newTileY) GuessGrowthTile( float heading, int currTileX, int currTileY ) {
-			float growthRange = 1.5f * 16f;
+			float growthRange = 1.5f;
 
 			//
 
 			float rand = Main.rand.NextFloat();
-			rand *= rand;
+			rand = rand * rand * rand;
 			rand *= Main.rand.NextBool() ? 1f : -1f;
 
-			heading += (float)Math.PI * rand;
-			heading %= (float)Math.PI;
-			if( heading < 0f ) {
-				heading += (float)Math.PI;
+			float newHeading = heading + (float)Math.PI * rand;
+			if( newHeading < 0f ) {
+				newHeading += (float)Math.PI;
+			} else if( newHeading > (float)Math.PI ) {
+				newHeading %= (float)Math.PI;
 			}
 
-			Vector2 vecHeading = Vector2.One.RotatedBy( heading );
+			Vector2 vecHeading = Vector2.One.RotatedBy( newHeading );
 
 			//
-			
-			currTileX += (int)( vecHeading.X * (16f + (Main.rand.NextFloat() * growthRange)) );
-			currTileY += (int)( vecHeading.Y * (16f + (Main.rand.NextFloat() * growthRange)) );
+
+			float growthDistX = 1f + (Main.rand.NextFloat() * growthRange);
+			float growthDistY = 1f + (Main.rand.NextFloat() * growthRange);
+
+			currTileX += (int)( vecHeading.X * growthDistX );
+			currTileY += (int)( vecHeading.Y * growthDistY );
 
 			if( currTileX <= 0 ) {
 				currTileX = 1;

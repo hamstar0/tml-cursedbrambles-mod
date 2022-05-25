@@ -7,7 +7,7 @@ using ModLibsCore.Classes.Errors;
 
 namespace CursedBrambles.Generators.Samples {
 	public partial class TendrilBrambleGen : BrambleGen {
-		public BloomBrambleGen Parent { get; }
+		public BramblePatchInfo Info { get; }
 
 		protected int CurrTileX;
 		protected int CurrTileY;
@@ -20,9 +20,9 @@ namespace CursedBrambles.Generators.Samples {
 
 		////////////////
 
-		public TendrilBrambleGen( BloomBrambleGen parent, int tickRate, int tileX, int tileY )
+		public TendrilBrambleGen( BramblePatchInfo info, int tickRate, int tileX, int tileY )
 					: base( tickRate ) {
-			this.Parent = parent;
+			this.Info = info;
 			this.CurrTileX = tileX;
 			this.CurrTileY = tileY;
 

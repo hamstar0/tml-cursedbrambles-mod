@@ -9,7 +9,7 @@ using CursedBrambles.Tiles;
 namespace CursedBrambles.Generators.Samples {
 	public partial class TendrilBrambleGen : BrambleGen {
 		public override bool CanGen() {
-			if( this.Parent.GetSize() <= 0 ) {
+			if( this.Info.Size <= 0 ) {
 				return false;
 			}
 
@@ -28,7 +28,7 @@ namespace CursedBrambles.Generators.Samples {
 			Tile brambleTile = CursedBrambleTile.CreateBrambleAt_If( tileX, tileY, true );
 
 			if( brambleTile != null ) {
-				this.Parent.AddSize( -1 );
+				this.Info.Size--;
 
 				gennedBrambles[ this ] = new HashSet<(int, int)> { (tileX, tileY) };
 			}

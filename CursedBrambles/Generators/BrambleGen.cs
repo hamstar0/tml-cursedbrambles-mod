@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Terraria;
 
 
@@ -9,6 +8,7 @@ namespace CursedBrambles.Generators {
 		protected ISet<BrambleGen> SubGens = new HashSet<BrambleGen>();
 
 		public int GenTickRate { get; private set; }
+
 		private int TicksUntilNextGen = 0;
 
 
@@ -23,7 +23,7 @@ namespace CursedBrambles.Generators {
 		////////////////
 
 		protected virtual bool UpdateRegenTicks() {
-			return this.TicksUntilNextGen-- > 0;
+			return this.TicksUntilNextGen-- <= 0;
 		}
 
 		protected virtual void ResetRegenTicks() {
